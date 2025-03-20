@@ -14,79 +14,43 @@ import { AuthService } from "../../../core/services/auth.service";
         <h1>Create Account</h1>
         
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <label for="name">Full Name</label>
-            <input 
-              type="text" 
-              id="name" 
-              formControlName="name" 
-              placeholder="Enter your full name"
-            >
-            @if (name?.invalid && (name?.dirty || name?.touched)) {
-              <div class="error-message">
-                @if (name?.errors?.['required']) {
-                  <span>Name is required</span>
-                }
-              </div>
-            }
-          </div>
+        <div class="form-group">
+  <label for="username">Username</label>
+  <input 
+    type="text" 
+    id="username" 
+    formControlName="username" 
+    placeholder="Enter your username"
+  >
+  @if (username?.invalid && (username?.dirty || username?.touched)) {
+    <div class="error-message">
+      @if (username?.errors?.['required']) {
+        <span>Username is required</span>
+      }
+    </div>
+  }
+</div>
 
-          <div class="form-group">
-            <label for="emailOrUsername">Email or Username</label>
-            <input 
-              type="text" 
-              id="emailOrUsername" 
-              formControlName="emailOrUsername" 
-              placeholder="Enter your email or username"
-            >
-            @if (emailOrUsername?.invalid && (emailOrUsername?.dirty || emailOrUsername?.touched)) {
-              <div class="error-message">
-                @if (emailOrUsername?.errors?.['required']) {
-                  <span>Email or Username is required</span>
-                }
-              </div>
-            }
-          </div>
+<div class="form-group">
+  <label for="email">Email</label>
+  <input 
+    type="email" 
+    id="email" 
+    formControlName="email" 
+    placeholder="Enter your email"
+  >
+  @if (email?.invalid && (email?.dirty || email?.touched)) {
+    <div class="error-message">
+      @if (email?.errors?.['required']) {
+        <span>Email is required</span>
+      }
+      @if (email?.errors?.['email']) {
+        <span>Please enter a valid email</span>
+      }
+    </div>
+  }
+</div>
 
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input 
-              type="password" 
-              id="password" 
-              formControlName="password" 
-              placeholder="Create a password"
-            >
-            @if (password?.invalid && (password?.dirty || password?.touched)) {
-              <div class="error-message">
-                @if (password?.errors?.['required']) {
-                  <span>Password is required</span>
-                }
-                @if (password?.errors?.['minlength']) {
-                  <span>Password must be at least 8 characters</span>
-                }
-              </div>
-            }
-          </div>
-
-          <div class="form-group">
-            <label for="confirmPassword">Confirm Password</label>
-            <input 
-              type="password" 
-              id="confirmPassword" 
-              formControlName="confirmPassword" 
-              placeholder="Confirm your password"
-            >
-            @if (confirmPassword?.invalid && (confirmPassword?.dirty || confirmPassword?.touched)) {
-              <div class="error-message">
-                @if (confirmPassword?.errors?.['required']) {
-                  <span>Please confirm your password</span>
-                }
-                @if (registerForm.errors?.['passwordMismatch']) {
-                  <span>Passwords do not match</span>
-                }
-              </div>
-            }
-          </div>
 
           <div class="form-actions">
             <button 
@@ -223,14 +187,11 @@ export class RegisterComponent {
   isLoading = false;
 
 
-  get emailOrUsername() {
-    return this.registerForm.get("emailOrUsername");
+  get username() {
+    return this.registerForm.get("username");
   }
-  get password() {
-    return this.registerForm.get("password");
-  }
-  get confirmPassword() {
-    return this.registerForm.get("confirmPassword");
+  get email() {
+    return this.registerForm.get("email");
   }
 
   passwordMatchValidator(form: FormGroup) {
@@ -245,24 +206,18 @@ export class RegisterComponent {
 
   onSubmit(): void {
     if (this.registerForm.invalid) return;
-
+  
     this.isLoading = true;
     const userData = {
-      name: this.registerForm.value.name,
-      emailOrUsername: this.registerForm.value.emailOrUsername,
+      username: this.registerForm.value.username,
+      email: this.registerForm.value.email,
       password: this.registerForm.value.password,
     };
-
+  
     this.authService.register(userData).subscribe({
-      next: () => {
-        this.router.navigate(["/auth/login"]);
-      },
-      error: () => {
-        this.isLoading = false;
-      },
-      complete: () => {
-        this.isLoading = false;
-      },
+      next: () => this.router.navigate(["/auth/login"]),
+      error: () => (this.isLoading = false),
+      complete: () => (this.isLoading = false),
     });
   }
 }
