@@ -1,6 +1,6 @@
 import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormBuilder, type FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Router, RouterLink } from "@angular/router";
 import { AuthService } from "../../../core/services/auth.service";
 
@@ -12,45 +12,84 @@ import { AuthService } from "../../../core/services/auth.service";
     <div class="auth-container">
       <div class="auth-card">
         <h1>Create Account</h1>
-        
+
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-  <label for="username">Username</label>
-  <input 
-    type="text" 
-    id="username" 
-    formControlName="username" 
-    placeholder="Enter your username"
-  >
-  @if (username?.invalid && (username?.dirty || username?.touched)) {
-    <div class="error-message">
-      @if (username?.errors?.['required']) {
-        <span>Username is required</span>
-      }
-    </div>
-  }
-</div>
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input 
+              type="text" 
+              id="username" 
+              formControlName="username" 
+              placeholder="Enter your username"
+            >
+            @if (username?.invalid && (username?.dirty || username?.touched)) {
+              <div class="error-message">
+                @if (username?.errors?.['required']) {
+                  <span>Username is required</span>
+                }
+              </div>
+            }
+          </div>
 
-<div class="form-group">
-  <label for="email">Email</label>
-  <input 
-    type="email" 
-    id="email" 
-    formControlName="email" 
-    placeholder="Enter your email"
-  >
-  @if (email?.invalid && (email?.dirty || email?.touched)) {
-    <div class="error-message">
-      @if (email?.errors?.['required']) {
-        <span>Email is required</span>
-      }
-      @if (email?.errors?.['email']) {
-        <span>Please enter a valid email</span>
-      }
-    </div>
-  }
-</div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input 
+              type="email" 
+              id="email" 
+              formControlName="email" 
+              placeholder="Enter your email"
+            >
+            @if (email?.invalid && (email?.dirty || email?.touched)) {
+              <div class="error-message">
+                @if (email?.errors?.['required']) {
+                  <span>Email is required</span>
+                }
+                @if (email?.errors?.['email']) {
+                  <span>Please enter a valid email</span>
+                }
+              </div>
+            }
+          </div>
 
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input 
+              type="password" 
+              id="password" 
+              formControlName="password" 
+              placeholder="Create a password"
+            >
+            @if (password?.invalid && (password?.dirty || password?.touched)) {
+              <div class="error-message">
+                @if (password?.errors?.['required']) {
+                  <span>Password is required</span>
+                }
+                @if (password?.errors?.['minlength']) {
+                  <span>Password must be at least 8 characters</span>
+                }
+              </div>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input 
+              type="password" 
+              id="confirmPassword" 
+              formControlName="confirmPassword" 
+              placeholder="Confirm your password"
+            >
+            @if (confirmPassword?.invalid && (confirmPassword?.dirty || confirmPassword?.touched)) {
+              <div class="error-message">
+                @if (confirmPassword?.errors?.['required']) {
+                  <span>Please confirm your password</span>
+                }
+                @if (registerForm.errors?.['passwordMismatch']) {
+                  <span>Passwords do not match</span>
+                }
+              </div>
+            }
+          </div>
 
           <div class="form-actions">
             <button 
@@ -62,15 +101,14 @@ import { AuthService } from "../../../core/services/auth.service";
             </button>
           </div>
         </form>
-        
+
         <div class="auth-footer">
           <p>Already have an account? <a routerLink="/auth/login">Login</a></p>
         </div>
       </div>
     </div>
   `,
-  styles: [
-    `
+  styles: [`
     .auth-container {
       display: flex;
       justify-content: center;
@@ -78,7 +116,6 @@ import { AuthService } from "../../../core/services/auth.service";
       min-height: calc(100vh - 140px);
       padding: 2rem;
     }
-    
     .auth-card {
       background-color: white;
       border-radius: 8px;
@@ -87,23 +124,19 @@ import { AuthService } from "../../../core/services/auth.service";
       width: 100%;
       max-width: 400px;
     }
-    
     h1 {
       text-align: center;
       margin-bottom: 2rem;
       color: #2c3e50;
     }
-    
     .form-group {
       margin-bottom: 1.5rem;
     }
-    
     label {
       display: block;
       margin-bottom: 0.5rem;
       font-weight: 500;
     }
-    
     input {
       width: 100%;
       padding: 0.75rem;
@@ -111,25 +144,21 @@ import { AuthService } from "../../../core/services/auth.service";
       border-radius: 4px;
       font-size: 1rem;
     }
-    
     input:focus {
       outline: none;
       border-color: #3498db;
       box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
     }
-    
     .error-message {
       color: #e74c3c;
       font-size: 0.85rem;
       margin-top: 0.5rem;
     }
-    
     .form-actions {
       display: flex;
       justify-content: center;
       margin-top: 1rem;
     }
-    
     .btn-primary {
       background-color: #3498db;
       color: white;
@@ -141,33 +170,27 @@ import { AuthService } from "../../../core/services/auth.service";
       transition: background-color 0.3s;
       width: 100%;
     }
-    
     .btn-primary:hover {
       background-color: #2980b9;
     }
-    
     .btn-primary:disabled {
       background-color: #95a5a6;
       cursor: not-allowed;
     }
-    
     .auth-footer {
       text-align: center;
       margin-top: 2rem;
       padding-top: 1rem;
       border-top: 1px solid #ecf0f1;
     }
-    
     .auth-footer a {
       color: #3498db;
       text-decoration: none;
     }
-    
     .auth-footer a:hover {
       text-decoration: underline;
     }
-  `,
-  ],
+  `]
 })
 export class RegisterComponent {
   private fb = inject(FormBuilder);
@@ -186,12 +209,17 @@ export class RegisterComponent {
 
   isLoading = false;
 
-
   get username() {
     return this.registerForm.get("username");
   }
   get email() {
     return this.registerForm.get("email");
+  }
+  get password() {
+    return this.registerForm.get("password");
+  }
+  get confirmPassword() {
+    return this.registerForm.get("confirmPassword");
   }
 
   passwordMatchValidator(form: FormGroup) {
@@ -206,18 +234,24 @@ export class RegisterComponent {
 
   onSubmit(): void {
     if (this.registerForm.invalid) return;
-  
+
     this.isLoading = true;
     const userData = {
       username: this.registerForm.value.username,
       email: this.registerForm.value.email,
       password: this.registerForm.value.password,
     };
-  
+
     this.authService.register(userData).subscribe({
-      next: () => this.router.navigate(["/auth/login"]),
-      error: () => (this.isLoading = false),
-      complete: () => (this.isLoading = false),
+      next: () => {
+        this.router.navigate(["/auth/login"]);
+      },
+      error: () => {
+        this.isLoading = false;
+      },
+      complete: () => {
+        this.isLoading = false;
+      },
     });
   }
 }
