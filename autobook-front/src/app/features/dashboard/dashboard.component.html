@@ -1,0 +1,41 @@
+<div class="dashboard-container">
+    <h1>Your AutoBook Dashboard</h1>
+    
+    <div class="stats-overview">
+      <div class="stat-card">
+        <h3>Conversations</h3>
+        <div class="stat-value">{{ stats?.totalConversations || 0 }}</div>
+      </div>
+      
+      <div class="stat-card">
+        <h3>Books</h3>
+        <div class="stat-value">{{ stats?.totalBooks || 0 }}</div>
+      </div>
+      
+      <div class="stat-card">
+        <h3>Collections</h3>
+        <div class="stat-value">{{ stats?.totalCollections || 0 }}</div>
+      </div>
+    </div>
+    
+    <div class="charts-row">
+      <div class="chart-container">
+        <h3>Books by Type</h3>
+        <canvas id="bookTypeChart"></canvas>
+      </div>
+      
+      <div class="chart-container">
+        <h3>Books by Status</h3>
+        <canvas id="bookStatusChart"></canvas>
+      </div>
+    </div>
+    
+    <div class="chart-container full-width">
+      <h3>Activity Timeline</h3>
+      <canvas id="activityChart"></canvas>
+    </div>
+    
+    <div class="loading-overlay" *ngIf="loading">
+      <div class="spinner-border text-primary"></div>
+    </div>
+  </div>

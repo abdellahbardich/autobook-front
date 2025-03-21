@@ -8,6 +8,8 @@
       <nav class="main-nav">
         <ng-container *ngIf="authService.currentUserValue">
           <a routerLink="/conversations" routerLinkActive="active">Conversations</a>
+          <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+
           <a routerLink="/collections" routerLinkActive="active">Collections</a>
           <div class="user-dropdown">
             <button class="dropdown-toggle">

@@ -8,6 +8,11 @@ export const routes: Routes = [
     loadChildren: () => import('./features/auth/auth.routes').then(m => m.AUTH_ROUTES)
   },
   { 
+    path: 'dashboard', 
+    component: DashboardComponent,
+    canActivate: [() => inject(AuthGuard).canActivate()]
+  },
+  { 
     path: 'conversations',
     loadChildren: () => import('./features/conversation/conversation.routes').then(m => m.CONVERSATION_ROUTES),
     canActivate: [() => inject(AuthGuard).canActivate()]

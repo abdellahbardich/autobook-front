@@ -9,7 +9,7 @@ export interface Collection {
 }
 
 export interface CollectionDetail {
-  id: number;
+  collectionId: number;
   name: string;
   description?: string;
   books: Book[];
