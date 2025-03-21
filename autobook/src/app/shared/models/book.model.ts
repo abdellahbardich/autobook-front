@@ -1,45 +1,65 @@
-export type BookType = "text-only" | "with-images"
-export type BookStatus = "draft" | "generating" | "completed" | "failed"
+export type BookType = 'TEXT_ONLY' | 'TEXT_IMAGE';
+export type BookStatus = 'DRAFT' | 'GENERATING' | 'COMPLETED' | 'FAILED';
 
 export interface Book {
-  id: string
-  title: string
-  description: string
-  type: BookType
-  status: BookStatus
-  progress: number
-  coverImage?: string
-  pdfUrl?: string
-  previewImages?: string[]
-  createdAt: string
-  updatedAt: string
-  userId: string
-  collectionId?: string
+  id: number;
+  title: string;
+  description?: string;
+  type: BookType;
+  status: BookStatus;
+  progress?: number;
+  coverImage?: string;
+  pdfUrl?: string;
+  previewImages?: string[];
+  conversationId?: number;
+  createdAt: string;
+  updatedAt: string;
+  userId: number;
 }
 
-export interface BookCollection {
-  id: string
-  name: string
-  description?: string
-  books: Book[]
-  createdAt: string
-  updatedAt: string
-  userId: string
-}
-
-export interface BookMessage {
-  id: string
-  content: string
-  role: "user" | "assistant"
-  bookId: string
-  createdAt: string
+export interface BookCreationRequest {
+  conversationId: number;
+  messageId?: number;
+  prompt: string;
+  title: string;
+  bookType: BookType;
+  stylePrompt?: string;
+  numChapters?: number;
+  includeIllustrations?: boolean;
 }
 
 export interface BookConversation {
-  id: string
-  bookId: string
-  messages: BookMessage[]
-  createdAt: string
-  updatedAt: string
+  id: number;
+  title: string;
+  messages: BookMessage[];
+  createdAt: string;
+  updatedAt: string;
 }
 
+export interface BookMessage {
+  id: number;
+  content: string;
+  role: 'user' | 'assistant';
+  bookId?: number;
+  createdAt: string;
+}
+
+export interface BookCollection {
+  id: number;
+  name: string;
+  description?: string;
+  books: Book[];
+  createdAt: string;
+  updatedAt: string;
+  userId: number;
+}
+
+export interface CollectionCreateRequest {
+  name: string;
+  description?: string;
+}
+
+export interface ConversationCreateRequest {
+  title: string;
+  initialMessage?: string;
+}

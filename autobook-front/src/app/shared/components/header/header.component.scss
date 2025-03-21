@@ -1,0 +1,126 @@
+.app-header {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo {
+    a {
+      text-decoration: none;
+      
+      h1 {
+        margin: 0;
+        font-size: 1.5rem;
+        color: var(--primary-color);
+        font-weight: 700;
+      }
+    }
+  }
+  
+  .main-nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    
+    a {
+      color: #555;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 5px 0;
+      position: relative;
+      
+      &:hover {
+        color: var(--primary-color);
+      }
+      
+      &.active {
+        color: var(--primary-color);
+        
+        &:after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 2px;
+          background-color: var(--primary-color);
+        }
+      }
+    }
+    
+    .user-dropdown {
+      position: relative;
+      
+      .dropdown-toggle {
+        background: none;
+        border: none;
+        color: #555;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        cursor: pointer;
+        
+        &:hover {
+          color: var(--primary-color);
+        }
+        
+        i {
+          font-size: 0.8rem;
+        }
+      }
+      
+      .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: white;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+        min-width: 150px;
+        display: none;
+        
+        a {
+          display: block;
+          padding: 10px 15px;
+          
+          &:hover {
+            background-color: #f8f9fa;
+          }
+        }
+      }
+      
+      &:hover .dropdown-menu {
+        display: block;
+      }
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .main-nav {
+      gap: 15px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .app-header {
+      padding: 10px 0;
+    }
+    
+    .logo h1 {
+      font-size: 1.3rem;
+    }
+    
+    .main-nav {
+      gap: 10px;
+    }
+  }

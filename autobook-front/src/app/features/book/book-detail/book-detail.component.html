@@ -1,0 +1,124 @@
+<div class="book-detail-container" *ngIf="book">
+    <div class="header">
+      <button class="btn btn-outline-secondary" (click)="goToConversation()">
+        <i class="fa fa-arrow-left"></i> Back to Conversation
+      </button>
+      <div class="title-section">
+        <h1>{{ book.title }}</h1>
+        <span class="badge" [ngClass]="getStatusBadgeClass()">{{ book.status }}</span>
+      </div>
+      <div class="actions">
+        <button 
+          class="btn btn-primary" 
+          [disabled]="book.status !== BookStatus.COMPLETED"
+          (click)="downloadBook()"
+        >
+          <i class="fa fa-download"></i> Download PDF
+        </button>
+        <button class="btn btn-danger" (click)="deleteBook()">
+          <i class="fa fa-trash"></i> Delete
+        </button>
+      </div>
+    </div>
+    
+    <div class="book-content">
+      <div class="book-preview">
+        <div class="cover-image">
+          <img [src]="getCoverUrl()" alt="Book Cover" onerror="this.src='assets/images/placeholder-cover.jpg'">
+        </div>
+        
+        <div class="book-details">
+          <div class="detail-item">
+            <span class="label">Book Type:</span>
+            <span class="value">{{ book.bookType.replace('_', ' ') }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Chapters:</span>
+            <span class="value">{{ book.numChapters }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Illustrations:</span>
+            <span class="value">{{ book.includeIllustrations ? 'Yes' : 'No' }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Style Prompt:</span>
+            <span class="value">{{ book.stylePrompt || 'None' }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Created On:</span>
+            <span class="value">{{ book.createdAt | date:'medium' }}</span>
+          </div>
+        </div>
+        
+        <div class="collection-section">
+          <h3>Add to Collection</h3>
+          <div class="input-group">
+            <select class="form-control" [(ngModel)]="selectedCollectionId">
+              <option [ngValue]="null">Select a collection...</option>
+              <option *ngFor="let collection of collections" [value]="collection.id">
+                {{ collection.name }}
+              </option>
+            </select>
+            <button 
+              class="btn btn-primary" 
+              [disabled]="!selectedCollectionId" 
+              (click)="addToCollection()"
+            >
+              Add
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="chapters-section" *ngIf="book.chapters && book.chapters.length > 0">
+        <h2>Chapters</h2>
+        
+        <div class="chapters-list">
+          <div class="chapter-card" *ngFor="let chapter of book.chapters">
+            <div class="chapter-header">
+              <h3>Chapter {{ chapter.chapterNumber }}: {{ chapter.chapterTitle }}</h3>
+            </div>
+            
+            <div class="chapter-content" *ngIf="book.bookType !== BookType.IMAGE_ONLY">
+              <p>{{ chapter.chapterContent | slice:0:300 }}{{ chapter.chapterContent.length > 300 ? '...' : '' }}</p>
+            </div>
+            
+            <div class="chapter-illustration" *ngIf="chapter.illustrationPath && book.bookType !== BookType.TEXT_ONLY">
+              <img [src]="chapter.illustrationPath" alt="Chapter Illustration">
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="generating-state" *ngIf="book.status !== BookStatus.COMPLETED">
+        <div class="status-message" *ngIf="book.status === BookStatus.PENDING">
+          <i class="fa fa-clock-o fa-3x"></i>
+          <h3>Your book is pending generation</h3>
+          <p>Please wait while we prepare to create your book.</p>
+        </div>
+        
+        <div class="status-message" *ngIf="book.status === BookStatus.GENERATING">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <h3>Creating your book...</h3>
+          <p>We're working hard to generate your book. This might take a few minutes.</p>
+        </div>
+        
+        <div class="status-message" *ngIf="book.status === BookStatus.FAILED">
+          <i class="fa fa-exclamation-triangle fa-3x text-danger"></i>
+          <h3>Generation Failed</h3>
+          <p>We encountered an issue while generating your book. Please try again later.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="loading-container" *ngIf="loading">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p>Loading book details...</p>
+  </div>
+  
+  <div class="alert alert-danger" *ngIf="error">{{ error }}</div>

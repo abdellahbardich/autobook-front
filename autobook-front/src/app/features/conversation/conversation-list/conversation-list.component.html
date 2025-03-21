@@ -1,0 +1,103 @@
+<div class="conversation-list-container">
+  <div class="header">
+    <h1>Your Conversations</h1>
+    <button class="btn btn-primary" (click)="toggleNewConversationForm()">
+      <i class="fa fa-plus"></i> New Conversation
+    </button>
+  </div>
+
+  <div class="new-conversation-form" *ngIf="showNewConversationForm">
+    <div class="form-card">
+      <h3>Start a New Conversation</h3>
+      <form [formGroup]="newConversationForm" (ngSubmit)="createConversation()">
+        <div class="form-group">
+          <label for="title">Conversation Title</label>
+          <input
+            type="text"
+            id="title"
+            formControlName="title"
+            class="form-control"
+            placeholder="E.g., Fantasy Adventure Book"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="initialMessage">Initial Message</label>
+          <textarea
+            id="initialMessage"
+            formControlName="initialMessage"
+            class="form-control"
+            rows="3"
+            placeholder="E.g., I want to create a fantasy adventure book about a young wizard."
+          ></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="toggleNewConversationForm()"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="newConversationForm.invalid || loading"
+          >
+            <span
+              *ngIf="loading"
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            Start Conversation
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="conversations-grid" *ngIf="conversations.length > 0">
+    <div
+      class="conversation-card"
+      *ngFor="let conversation of conversations"
+      (click)="
+        conversation.conversationId
+          ? openConversation(conversation.conversationId)
+          : null
+      "
+    >
+      <div class="conversation-title">{{ conversation.title }}</div>
+      <div class="conversation-date">
+        {{ conversation.createdAt | date : "medium" }}
+      </div>
+      <button
+        class="btn-delete"
+        (click)="deleteConversation($event, conversation.conversationId)"
+      >
+        <i class="fa fa-trash"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="!loading && conversations.length === 0">
+    <div class="empty-state-content">
+      <i class="fa fa-comments-o fa-4x"></i>
+      <h3>No conversations yet</h3>
+      <p>Start your first conversation to begin creating amazing books!</p>
+      <button class="btn btn-primary" (click)="toggleNewConversationForm()">
+        <i class="fa fa-plus"></i> Start a Conversation
+      </button>
+    </div>
+  </div>
+
+  <div class="alert alert-danger" *ngIf="error">{{ error }}</div>
+
+  <div class="loading-state" *ngIf="loading && !showNewConversationForm">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p>Loading your conversations...</p>
+  </div>
+</div>

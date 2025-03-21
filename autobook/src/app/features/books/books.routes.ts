@@ -1,5 +1,7 @@
 import type { Routes } from "@angular/router"
 
+
+
 export const BOOKS_ROUTES: Routes = [
   {
     path: "",
@@ -26,5 +28,20 @@ export const BOOKS_ROUTES: Routes = [
     path: "collections",
     loadComponent: () => import("./collections/collections.component").then((m) => m.CollectionsComponent),
   },
+  {
+    path: "conversations",
+    loadComponent: () => import("./conversations/conversations.component").then((m) => m.ConversationsComponent),
+  },
+  {
+    path: "conversations/:id",
+    loadComponent: () =>
+      import("./conversations/conversation-detail/conversation-detail.component").then(
+        (m) => m.ConversationDetailComponent,
+      ),
+  },
+  {
+    path: "conversations/new",
+    loadComponent: () =>
+      import("./conversations/conversation-new/conversation-new.component").then((m) => m.ConversationNewComponent),
+  },
 ]
-

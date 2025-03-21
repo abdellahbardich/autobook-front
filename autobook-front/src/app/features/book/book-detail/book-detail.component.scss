@@ -1,0 +1,254 @@
+.book-detail-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 15px;
+    
+    .title-section {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      
+      h1 {
+        margin: 0;
+        font-size: 2rem;
+      }
+      
+      .badge {
+        padding: 8px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        text-transform: uppercase;
+      }
+      
+      .badge-warning {
+        background-color: #ffc107;
+        color: #000;
+      }
+      
+      .badge-info {
+        background-color: #17a2b8;
+        color: #fff;
+      }
+      
+      .badge-success {
+        background-color: #28a745;
+        color: #fff;
+      }
+      
+      .badge-danger {
+        background-color: #dc3545;
+        color: #fff;
+      }
+    }
+    
+    .actions {
+      display: flex;
+      gap: 10px;
+    }
+  }
+  
+  .book-content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .book-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    
+    .cover-image {
+      flex: 0 0 300px;
+      
+      img {
+        width: 100%;
+        max-height: 450px;
+        object-fit: cover;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+    }
+    
+    .book-details {
+      flex: 1;
+      min-width: 300px;
+      
+      .detail-item {
+        margin-bottom: 15px;
+        
+        .label {
+          display: block;
+          font-size: 0.85rem;
+          color: #666;
+          margin-bottom: 5px;
+        }
+        
+        .value {
+          font-size: 1.1rem;
+          color: #333;
+        }
+      }
+    }
+    
+    .collection-section {
+      flex: 0 0 100%;
+      margin-top: 20px;
+      
+      h3 {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+      }
+      
+      .input-group {
+        display: flex;
+        
+        select {
+          flex: 1;
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+        
+        button {
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+        }
+      }
+    }
+  }
+  
+  .chapters-section {
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .chapters-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .chapter-card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      
+      .chapter-header {
+        padding: 15px 20px;
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #e0e0e0;
+        
+        h3 {
+          margin: 0;
+          font-size: 1.2rem;
+          color: #333;
+        }
+      }
+      
+      .chapter-content {
+        padding: 20px;
+        
+        p {
+          margin: 0;
+          color: #444;
+          line-height: 1.6;
+        }
+      }
+      
+      .chapter-illustration {
+        margin-top: 15px;
+        padding: 0 20px 20px;
+        
+        img {
+          width: 100%;
+          max-height: 300px;
+          object-fit: contain;
+          border-radius: 4px;
+        }
+      }
+    }
+  }
+  
+  .generating-state {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    
+    .status-message {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      
+      i, .spinner-border {
+        margin-bottom: 20px;
+        color: #6c757d;
+      }
+      
+      h3 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+        color: #333;
+      }
+      
+      p {
+        color: #666;
+        max-width: 500px;
+      }
+    }
+  }
+  
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    
+    p {
+      margin-top: 15px;
+      color: #666;
+    }
+  }
+  
+  .alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+  }
+  
+  @media (max-width: 768px) {
+    .header {
+      flex-direction: column;
+      align-items: flex-start;
+      
+      .title-section {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .actions {
+        align-self: stretch;
+        
+        button {
+          flex: 1;
+        }
+      }
+    }
+  }
