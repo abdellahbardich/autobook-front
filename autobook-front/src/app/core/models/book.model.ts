@@ -5,9 +5,9 @@ export enum BookType {
   }
   
   export enum BookStatus {
-    PENDING = 'PENDING',
-    GENERATING = 'GENERATING',
-    COMPLETED = 'COMPLETED',
+    DRAFT = 'DRAFT',
+    PROCESSING = 'PROCESSING',
+    COMPLETE = 'COMPLETE',
     FAILED = 'FAILED'
   }
   
@@ -16,7 +16,7 @@ export enum BookType {
     title: string;
     summary?: string;
     style?: string;
-    bookType: BookType;
+    bookType?: BookType;
     status?: BookStatus;
     previewImageUrl?: string;
     downloadUrl?: string;

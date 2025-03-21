@@ -245,3 +245,24 @@
     justify-content: center;
     z-index: 9999;
   }
+  .bg-failed {
+    background-color: red;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  
+  .bg-processing {
+    background-color: blue;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  
+  .bg-complete {
+    background-color: green;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  

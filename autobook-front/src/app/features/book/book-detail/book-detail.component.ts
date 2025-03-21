@@ -8,11 +8,12 @@ import { interval, Subscription } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { SecureImageComponent } from '../../conversation/secure-image.component';
 
 @Component({
   selector: 'app-book-detail',
   standalone: true,
-  imports: [FormsModule,CommonModule,ReactiveFormsModule],
+  imports: [FormsModule,CommonModule,ReactiveFormsModule,SecureImageComponent],
   templateUrl: './book-detail.component.html',
   styleUrls: ['./book-detail.component.scss']
 })
@@ -51,7 +52,7 @@ export class BookDetailComponent implements OnInit, OnDestroy {
       .subscribe({
         next: response => {
           if (this.book && this.book.status !== response.status) {
-            if (response.status === BookStatus.COMPLETED) {
+            if (response.status === BookStatus.COMPLETE) {
               this.loadBook(); // Reload book when complete
             } else {
               this.book.status = response.status;
@@ -76,7 +77,7 @@ export class BookDetailComponent implements OnInit, OnDestroy {
           this.loading = false;
           
           // If book is complete, stop checking status
-          if (book.status === BookStatus.COMPLETED || book.status === BookStatus.FAILED) {
+          if (book.status === BookStatus.COMPLETE || book.status === BookStatus.FAILED) {
             this.statusCheckSubscription?.unsubscribe();
           }
         },
@@ -160,9 +161,9 @@ export class BookDetailComponent implements OnInit, OnDestroy {
     if (!this.book) return '';
     
     switch (this.book.status) {
-      case BookStatus.PENDING: return 'badge-warning';
-      case BookStatus.GENERATING: return 'badge-info';
-      case BookStatus.COMPLETED: return 'badge-success';
+      case BookStatus.DRAFT: return 'badge-warning';
+      case BookStatus.PROCESSING: return 'badge-info';
+      case BookStatus.COMPLETE: return 'badge-success';
       case BookStatus.FAILED: return 'badge-danger';
       default: return '';
     }

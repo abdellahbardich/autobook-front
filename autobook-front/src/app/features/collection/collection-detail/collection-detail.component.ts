@@ -6,11 +6,12 @@ import { BookService } from '../../../core/services/book.service';
 import { CollectionDetail } from '../../../core/models/collection.model';
 import { Book, BookStatus } from '../../../core/models/book.model';
 import { CommonModule } from '@angular/common';
+import { SecureImageComponent } from '../../conversation/secure-image.component';
 
 @Component({
   selector: 'app-collection-detail',
   standalone: true,
-  imports: [FormsModule,CommonModule,RouterLink,ReactiveFormsModule],
+  imports: [FormsModule,CommonModule,RouterLink,ReactiveFormsModule,SecureImageComponent],
   templateUrl: './collection-detail.component.html',
   styleUrls: ['./collection-detail.component.scss']
 })

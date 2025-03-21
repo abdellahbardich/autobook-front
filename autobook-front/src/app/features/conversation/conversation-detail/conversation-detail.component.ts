@@ -8,11 +8,12 @@ import { Book, BookType, CreateBookRequest, BookStatus } from '../../../core/mod
 import { interval, Subscription } from 'rxjs';
 import { catchError, finalize, switchMap } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
+import { SecureImageComponent } from '../secure-image.component';
 
 @Component({
   selector: 'app-conversation-detail',
   standalone: true,
-  imports: [FormsModule,CommonModule,RouterLink,ReactiveFormsModule],
+  imports: [FormsModule,CommonModule,RouterLink,ReactiveFormsModule,SecureImageComponent],
   templateUrl: './conversation-detail.component.html',
   styleUrls: ['./conversation-detail.component.scss']
 })
@@ -108,7 +109,7 @@ export class ConversationDetailComponent implements OnInit, OnDestroy {
   
   checkBookStatuses(): void {
     const pendingBooks = this.books.filter(book => 
-      book.status === BookStatus.PENDING || book.status === BookStatus.GENERATING
+      book.status === BookStatus.PROCESSING || book.status === BookStatus.DRAFT
     );
     
     pendingBooks.forEach(book => {
@@ -116,7 +117,7 @@ export class ConversationDetailComponent implements OnInit, OnDestroy {
         this.bookService.getBookStatus(book.bookId).subscribe({
           next: response => {
             if (response.status !== book.status) {
-              this.loadBooks(); // Reload all books if status changed
+              this.loadBooks(); 
             }
           }
         });

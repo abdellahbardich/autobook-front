@@ -10,7 +10,7 @@
       <div class="actions">
         <button 
           class="btn btn-primary" 
-          [disabled]="book.status !== BookStatus.COMPLETED"
+          [disabled]="book.status !== BookStatus.COMPLETE"
           (click)="downloadBook()"
         >
           <i class="fa fa-download"></i> Download PDF
@@ -24,7 +24,12 @@
     <div class="book-content">
       <div class="book-preview">
         <div class="cover-image">
-          <img [src]="getCoverUrl()" alt="Book Cover" onerror="this.src='assets/images/placeholder-cover.jpg'">
+          <!-- <img [src]="getCoverUrl()" alt="Book Cover" onerror="this.src='assets/images/placeholder-cover.jpg'"> -->
+                    <app-secure-image 
+            [url]="getCoverUrl()" 
+            [alt]="book.title + ' cover'"
+            [placeholderUrl]="'assets/images/placeholder-cover.jpg'"
+            ></app-secure-image>
         </div>
         
         <div class="book-details">
@@ -55,7 +60,7 @@
           <div class="input-group">
             <select class="form-control" [(ngModel)]="selectedCollectionId">
               <option [ngValue]="null">Select a collection...</option>
-              <option *ngFor="let collection of collections" [value]="collection.id">
+              <option *ngFor="let collection of collections" [value]="collection.collectionId">
                 {{ collection.name }}
               </option>
             </select>
@@ -90,14 +95,14 @@
         </div>
       </div>
       
-      <div class="generating-state" *ngIf="book.status !== BookStatus.COMPLETED">
-        <div class="status-message" *ngIf="book.status === BookStatus.PENDING">
+      <div class="generating-state" *ngIf="book.status !== BookStatus.COMPLETE">
+        <div class="status-message" *ngIf="book.status === BookStatus.DRAFT">
           <i class="fa fa-clock-o fa-3x"></i>
           <h3>Your book is pending generation</h3>
           <p>Please wait while we prepare to create your book.</p>
         </div>
         
-        <div class="status-message" *ngIf="book.status === BookStatus.GENERATING">
+        <div class="status-message" *ngIf="book.status === BookStatus.PROCESSING">
           <div class="spinner-border text-primary" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>

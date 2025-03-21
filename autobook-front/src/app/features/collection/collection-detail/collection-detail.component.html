@@ -42,8 +42,12 @@
     <div class="books-grid" *ngIf="books.length > 0">
       <div class="book-card" *ngFor="let book of books">
         <div class="book-cover" (click)="viewBook(book.bookId)">
-          <img [src]="getBookCoverUrl(book.bookId)" alt="{{ book.title }} cover" 
-               onerror="this.src='assets/images/placeholder-cover.jpg'">
+          
+                        <app-secure-image 
+            [url]="getBookCoverUrl(book.bookId)" 
+            [alt]="book.title + ' cover'"
+            [placeholderUrl]="'assets/images/placeholder-cover.jpg'"
+            ></app-secure-image>
           <div class="book-status" *ngIf="book.status" [ngClass]="book.status.toLowerCase()">
             {{ book.status }}
           </div>

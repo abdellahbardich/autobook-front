@@ -87,25 +87,38 @@
           <div class="books-list">
             <div class="book-card" *ngFor="let book of books">
               <div class="book-cover">
-                <img *ngIf="book?.bookId" [src]="getBookCoverUrl(book.bookId)" alt="{{ book?.title || 'Book' }} cover" 
-     onerror="this.src='assets/images/placeholder-cover.jpg'">
-                <div class="book-status" [ngClass]="book.status?.toLowerCase()">
-                  {{ book.status }}
-                </div>
+                <!-- <img *ngIf="book?.bookId" [src]="getBookCoverUrl(book.bookId)" alt="{{ book?.title || 'Book' }} cover" 
+     onerror="this.src='assets/images/placeholder-cover.jpg'"> -->
+     <app-secure-image 
+  [url]="getBookCoverUrl(book.bookId)" 
+  [alt]="book.title + ' cover'"
+  [placeholderUrl]="'assets/images/placeholder-cover.jpg'"
+></app-secure-image>
+<div 
+class="book-status" 
+[ngClass]="{
+  'bg-failed': book.status?.toLowerCase() === 'failed',
+  'bg-processing': book.status?.toLowerCase() === 'processing',
+  'bg-complete': book.status?.toLowerCase() === 'complete'
+}">
+{{ book.status }}
+</div>
+
               </div>
               <div class="book-info">
                 <h4>{{ book.title }}</h4>
                 <!-- <p class="book-type">{{ book.bookType.replace('_', ' ') }}</p> -->
-                <span class="value">{{ book?.bookType?.replace('_', ' ') || 'Unknown' }}</span>
+                <!-- <span class="value">{{ book?.bookType?.replace('_', ' ') || 'Unknown' }}</span> -->
+                <!-- <span class="value">{{ book.status }}qsdqsdqdqsq</span> -->
                 <div class="book-actions">
                   <button class="btn btn-sm btn-outline-primary" 
                           (click)="viewBookDetails(book.bookId)"
-                          [disabled]="book.status !== BookStatus.COMPLETED">
+                          [disabled]="book.status !== BookStatus.COMPLETE">
                     View
                   </button>
                   <button class="btn btn-sm btn-primary" 
                           (click)="downloadBook(book.bookId)"
-                          [disabled]="book.status !== BookStatus.COMPLETED">
+                          [disabled]="book.status !== BookStatus.COMPLETE">
                     <i class="fa fa-download"></i> Download
                   </button>
                 </div>

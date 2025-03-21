@@ -1,7 +1,7 @@
 import { Book } from './book.model';
 
 export interface Collection {
-  id?: number;
+  collectionId?: number;
   name: string;
   description?: string;
   createdAt?: Date;

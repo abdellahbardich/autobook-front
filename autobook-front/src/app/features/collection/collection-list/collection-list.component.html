@@ -46,13 +46,13 @@
     </div>
     
     <div class="collections-grid" *ngIf="collections.length > 0">
-      <div class="collection-card" *ngFor="let collection of collections" (click)="openCollection(collection.id!)">
+      <div class="collection-card" *ngFor="let collection of collections" (click)="openCollection(collection.collectionId!)">
         <div class="collection-content">
           <h3>{{ collection.name }}</h3>
           <p class="description" *ngIf="collection.description">{{ collection.description }}</p>
           <p class="timestamp">Created: {{ collection.createdAt | date:'medium' }}</p>
         </div>
-        <button class="btn-delete" (click)="deleteCollection($event, collection.id!)">
+        <button class="btn-delete" (click)="deleteCollection($event, collection.collectionId!)">
           <i class="fa fa-trash"></i>
         </button>
       </div>
