@@ -111,19 +111,22 @@ export class ConversationDetailComponent implements OnInit, OnDestroy {
     const pendingBooks = this.books.filter(book => 
       book.status === BookStatus.PROCESSING || book.status === BookStatus.DRAFT
     );
-    
+  
     pendingBooks.forEach(book => {
       if (book.bookId) {
         this.bookService.getBookStatus(book.bookId).subscribe({
           next: response => {
             if (response.status !== book.status) {
-              this.loadBooks(); 
+              book.status = response.status;
+
             }
           }
         });
       }
     });
   }
+  
+  
   
   sendMessage(): void {
     if (this.messageForm.invalid) return;

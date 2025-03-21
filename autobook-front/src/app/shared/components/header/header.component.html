@@ -11,8 +11,8 @@
           <a routerLink="/collections" routerLinkActive="active">Collections</a>
           <div class="user-dropdown">
             <button class="dropdown-toggle">
-              <!-- {{ authService.currentUserValue.username }} -->
-              <i class="fa fa-caret-down"></i>
+              {{ authService.currentUserValue.username }}
+              <!-- <i class="fa fa-caret-down"></i> -->
             </button>
             <div class="dropdown-menu">
               <a routerLink="/profile">Profile</a>

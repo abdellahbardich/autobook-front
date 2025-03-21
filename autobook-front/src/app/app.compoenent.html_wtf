@@ -1,5 +1,8 @@
-<app-header></app-header>
+<app-header>qsdqdqsdqsd</app-header>
+
 <main class="main-content">
+    qsdqsdqsd
   <router-outlet></router-outlet>
+  qsdqsdqsd
 </main>
 <app-footer></app-footer>
