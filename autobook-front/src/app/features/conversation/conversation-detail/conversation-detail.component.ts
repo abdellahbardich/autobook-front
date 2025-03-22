@@ -37,7 +37,7 @@ activeTab: 'books' | 'settings' = 'books';
     progressPercent: number;
     estimatedTimeLeft: string;
   }> = new Map();
-  readonly TOTAL_GENERATION_TIME = 900; 
+  readonly TOTAL_GENERATION_TIME = 90000; 
   readonly GENERATION_STEPS = 4;
   
   private progressInterval: Map<number, any> = new Map();
