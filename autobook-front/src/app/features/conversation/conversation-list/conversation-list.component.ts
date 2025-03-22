@@ -77,12 +77,50 @@ export class ConversationListComponent implements OnInit {
 //         }
 //       });
 //   }
+// createConversation(): void {
+//     if (this.newConversationForm.invalid) return;
+
+//     this.loading = true;
+//     const formValue = this.newConversationForm.value;
+
+//     this.conversationService.createConversation({
+//       title: formValue.title,
+//       initialMessage: formValue.initialMessage
+//     }).pipe(
+//       switchMap(conversation => {
+//         const bookRequest: CreateBookRequest = {
+//           title: formValue.title,
+//           prompt: formValue.initialMessage,
+//           conversationId: conversation.conversationId,
+//           bookType: formValue.bookType,
+//           stylePrompt: formValue.stylePrompt,
+//           numChapters: formValue.numChapters,
+//           includeIllustrations: formValue.includeIllustrations
+//         };
+
+//         return this.bookService.createBook(bookRequest).pipe(
+//           map(() => conversation.conversationId)
+//         );
+//       })
+//     ).subscribe({
+//       next: (conversationId) => {
+//         this.router.navigate(['/conversations', conversationId]);
+//         this.loading = false;
+//         this.toggleNewConversationForm();
+//       },
+//       error: (err) => {
+//         this.error = 'Failed to create conversation';
+//         console.error(err);
+//         this.loading = false;
+//       }
+//     });
+//   }
 createConversation(): void {
     if (this.newConversationForm.invalid) return;
-
+  
     this.loading = true;
     const formValue = this.newConversationForm.value;
-
+  
     this.conversationService.createConversation({
       title: formValue.title,
       initialMessage: formValue.initialMessage
@@ -97,14 +135,26 @@ createConversation(): void {
           numChapters: formValue.numChapters,
           includeIllustrations: formValue.includeIllustrations
         };
-
+  
+        // Persist book parameters for later retrieval
+        localStorage.setItem(
+          `conversation-${conversation.conversationId}-bookParameters`,
+          JSON.stringify({
+            bookType: formValue.bookType,
+            stylePrompt: formValue.stylePrompt,
+            numChapters: formValue.numChapters,
+            includeIllustrations: formValue.includeIllustrations
+          })
+        );
+  
         return this.bookService.createBook(bookRequest).pipe(
-          map(() => conversation.conversationId)
+          map(() => conversation)
         );
       })
     ).subscribe({
-      next: (conversationId) => {
-        this.router.navigate(['/conversations', conversationId]);
+      next: (conversation) => {
+        // Pass state if available, but the info is now also stored in localStorage
+        this.router.navigate(['/conversations', conversation.conversationId]);
         this.loading = false;
         this.toggleNewConversationForm();
       },
@@ -115,6 +165,7 @@ createConversation(): void {
       }
     });
   }
+  
   
 //   openConversation(id: number): void {
 //     this.router.navigate(['/conversations', id]);

@@ -45,6 +45,15 @@ export class CollectionDetailComponent implements OnInit {
     this.collectionId = +this.route.snapshot.paramMap.get('id')!;
     this.loadCollection();
   }
+  getCompletedCount(): number {
+    return this.books.filter(book => book.status === BookStatus.COMPLETE).length;
+  }
+  
+  getPendingCount(): number {
+    return this.books.filter(book => 
+      book.status === BookStatus.DRAFT || book.status === BookStatus.PROCESSING
+    ).length;
+  }
   
   loadCollection(): void {
     this.loading = true;

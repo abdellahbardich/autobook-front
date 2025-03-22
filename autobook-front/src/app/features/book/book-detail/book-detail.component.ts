@@ -22,10 +22,8 @@ export class BookDetailComponent implements OnInit, OnDestroy {
   book: BookDetail | null = null;
   collections: Collection[] = [];
   selectedCollectionId: number | null = null;
-  
   loading = false;
-  error = '';
-  
+  error: string | null = '';  
   BookStatus = BookStatus;
   BookType = BookType;
   
@@ -61,7 +59,9 @@ export class BookDetailComponent implements OnInit, OnDestroy {
         }
       });
   }
-  
+  dismissError() {
+    this.error = null;
+  }
   ngOnDestroy(): void {
     if (this.statusCheckSubscription) {
       this.statusCheckSubscription.unsubscribe();
@@ -137,9 +137,9 @@ export class BookDetailComponent implements OnInit, OnDestroy {
   }
   
   goToConversation(): void {
-    if (this.book?.conversationId) {
-      this.router.navigate(['/conversations', this.book.conversationId]);
-    }
+    // if (this.book?.conversationId) {
+      this.router.navigate(['/conversations']);
+    // }
   }
   
   deleteBook(): void {

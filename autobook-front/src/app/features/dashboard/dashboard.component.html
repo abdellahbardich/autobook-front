@@ -1,41 +1,254 @@
 <div class="dashboard-container">
-    <h1>Your AutoBook Dashboard</h1>
+    <div class="dashboard-header">
+      <div class="header-content">
+        <h1>Your AutoBook Dashboard</h1>
+        <p class="subtitle">Track your writing progress and statistics</p>
+      </div>
+      <div class="header-actions">
+        <div class="date-selector">
+          <button class="date-btn active">Today</button>
+          <button class="date-btn">Week</button>
+          <button class="date-btn">Month</button>
+          <button class="date-btn">Year</button>
+        </div>
+        <button class="refresh-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 4v6h-6"></path>
+            <path d="M1 20v-6h6"></path>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"></path>
+            <path d="M20.49 15a9 9 0 0 1-14.85 3.36L1 14"></path>
+          </svg>
+          <span>Refresh</span>
+        </button>
+      </div>
+    </div>
     
     <div class="stats-overview">
-      <div class="stat-card">
-        <h3>Conversations</h3>
-        <div class="stat-value">{{ stats?.totalConversations || 0 }}</div>
+      <div class="stat-card conversations">
+        <div class="stat-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <h3>Conversations</h3>
+          <div class="stat-details">
+            <div class="stat-value">{{ stats?.totalConversations || 0 }}</div>
+            <div class="stat-change positive">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="18 15 12 9 6 15"></polyline>
+              </svg>
+              <span>12%</span>
+            </div>
+          </div>
+          <div class="stat-subtext">From last period</div>
+        </div>
       </div>
       
-      <div class="stat-card">
-        <h3>Books</h3>
-        <div class="stat-value">{{ stats?.totalBooks || 0 }}</div>
+      <div class="stat-card books">
+        <div class="stat-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <h3>Books</h3>
+          <div class="stat-details">
+            <div class="stat-value">{{ stats?.totalBooks || 0 }}</div>
+            <div class="stat-change positive">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="18 15 12 9 6 15"></polyline>
+              </svg>
+              <span>8%</span>
+            </div>
+          </div>
+          <div class="stat-subtext">From last period</div>
+        </div>
       </div>
       
-      <div class="stat-card">
-        <h3>Collections</h3>
-        <div class="stat-value">{{ stats?.totalCollections || 0 }}</div>
+      <div class="stat-card collections">
+        <div class="stat-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21.5 2v6h-6"></path>
+            <path d="M2.5 22v-6h6"></path>
+            <path d="M22 11.5A10 10 0 0 0 3 9"></path>
+            <path d="M2 13a10 10 0 0 0 17.5 2.5"></path>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <h3>Collections</h3>
+          <div class="stat-details">
+            <div class="stat-value">{{ stats?.totalCollections || 0 }}</div>
+            <div class="stat-change negative">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+              <span>3%</span>
+            </div>
+          </div>
+          <div class="stat-subtext">From last period</div>
+        </div>
+      </div>
+      
+      <div class="stat-card completion">
+        <div class="stat-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <h3>Completion Rate</h3>
+          <div class="stat-details">
+            <div class="stat-value">87%</div>
+            <div class="stat-change positive">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="18 15 12 9 6 15"></polyline>
+              </svg>
+              <span>5%</span>
+            </div>
+          </div>
+          <div class="stat-subtext">Books finished vs started</div>
+        </div>
       </div>
     </div>
     
     <div class="charts-row">
       <div class="chart-container">
-        <h3>Books by Type</h3>
-        <canvas id="bookTypeChart"></canvas>
+        <div class="chart-header">
+          <h3>Books by Type</h3>
+          <div class="chart-legend">
+            <div class="legend-item">
+              <span class="legend-color" style="background-color: rgba(67, 97, 238, 0.7);"></span>
+              <span class="legend-label">Text Only</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-color" style="background-color: rgba(94, 114, 228, 0.7);"></span>
+              <span class="legend-label">Image Only</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-color" style="background-color: rgba(130, 147, 246, 0.7);"></span>
+              <span class="legend-label">Text & Images</span>
+            </div>
+          </div>
+        </div>
+        <div class="chart-body">
+          <canvas id="bookTypeChart"></canvas>
+        </div>
       </div>
       
       <div class="chart-container">
-        <h3>Books by Status</h3>
-        <canvas id="bookStatusChart"></canvas>
+        <div class="chart-header">
+          <h3>Books by Status</h3>
+          <div class="chart-controls">
+            <button class="control-btn active">All</button>
+            <button class="control-btn">This Month</button>
+          </div>
+        </div>
+        <div class="chart-body">
+          <canvas id="bookStatusChart"></canvas>
+        </div>
+        <div class="status-legend">
+          <div class="status-item">
+            <span class="status-dot" style="background-color: #10b981;"></span>
+            <span class="status-label">Completed</span>
+            <span class="status-value">24</span>
+          </div>
+          <div class="status-item">
+            <span class="status-dot" style="background-color: #f59e0b;"></span>
+            <span class="status-label">In Progress</span>
+            <span class="status-value">12</span>
+          </div>
+          <div class="status-item">
+            <span class="status-dot" style="background-color: #3b82f6;"></span>
+            <span class="status-label">Draft</span>
+            <span class="status-value">8</span>
+          </div>
+        </div>
       </div>
     </div>
     
-    <div class="chart-container full-width">
-      <h3>Activity Timeline</h3>
-      <canvas id="activityChart"></canvas>
+    <div class="activity-section">
+      <div class="section-header">
+        <h3>Activity Timeline</h3>
+        <button class="view-all-btn">View All</button>
+      </div>
+      
+      <div class="chart-container full-width">
+        <div class="activity-filter">
+          <button class="filter-btn active">Daily</button>
+          <button class="filter-btn">Weekly</button>
+          <button class="filter-btn">Monthly</button>
+        </div>
+        <div class="chart-body">
+          <canvas id="activityChart"></canvas>
+        </div>
+      </div>
+    </div>
+    
+    <div class="recent-section">
+      <div class="section-header">
+        <h3>Recent Activity</h3>
+        <button class="view-all-btn">View All</button>
+      </div>
+      
+      <div class="activity-timeline">
+        <div class="timeline-item">
+          <div class="timeline-icon books">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <h4>New Book Created</h4>
+              <span class="timeline-time">2 hours ago</span>
+            </div>
+            <p>You created a new book: "The Wizards of Westwood"</p>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-icon conversations">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <h4>Conversation Updated</h4>
+              <span class="timeline-time">Yesterday</span>
+            </div>
+            <p>You continued the conversation "Fantasy Adventure Ideas"</p>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-icon collections">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6"></path>
+              <path d="M2.5 22v-6h6"></path>
+              <path d="M22 11.5A10 10 0 0 0 3 9"></path>
+              <path d="M2 13a10 10 0 0 0 17.5 2.5"></path>
+            </svg>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <h4>New Collection</h4>
+              <span class="timeline-time">3 days ago</span>
+            </div>
+            <p>You created a new collection: "Summer Project Books"</p>
+          </div>
+        </div>
+      </div>
     </div>
     
     <div class="loading-overlay" *ngIf="loading">
-      <div class="spinner-border text-primary"></div>
+      <div class="spinner">
+        <svg viewBox="0 0 50 50" class="loading-spinner">
+          <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+        </svg>
+      </div>
     </div>
   </div>

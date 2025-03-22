@@ -1,6 +1,6 @@
 // header.component.ts
 import { Component, HostListener } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
 // import { AuthService } from '../../core/services/auth.service';
@@ -14,11 +14,13 @@ import { AuthService } from '../../../core/services/auth.service';
     styleUrls: ['./header.component.scss']
   })
 export class HeaderComponent {
-  constructor(public authService: AuthService) {}
+  constructor(public authService: AuthService, private router: Router) {}
   isDropdownOpen = false;
 
   logout(): void {
     this.authService.logout();
+    this.router.navigate(['/auth/login']);
+
   }
   toggleDropdown(event: Event): void {
     event.stopPropagation();
