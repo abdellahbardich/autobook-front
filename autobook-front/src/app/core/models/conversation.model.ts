@@ -14,7 +14,7 @@ export interface Conversation {
   }
   
   export interface ConversationDetail {
-    id: number;
+    conversationId: number;
     title: string;
     createdAt: Date;
     updatedAt: Date;

@@ -1,113 +1,306 @@
-.app-header {
+/* Header Component CSS */
+:root {
+    --primary-color: #4361ee;
+    --primary-hover: #3a56d4;
+    --primary-focus: rgba(67, 97, 238, 0.25);
+    --secondary-color: #6c757d;
+    --dark-color: #343a40;
+    --light-color: #f8f9fa;
+    --transition: all 0.3s ease;
+  }
+  
+  .app-header {
     background-color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.06);
     padding: 15px 0;
     position: sticky;
     top: 0;
     z-index: 1000;
+    transition: var(--transition);
   }
   
   .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+    flex-wrap: wrap;
   }
   
   .logo {
-    a {
-      text-decoration: none;
-      
-      h1 {
-        margin: 0;
-        font-size: 1.5rem;
-        color: var(--primary-color);
-        font-weight: 700;
-      }
-    }
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+  }
+  
+  .logo a {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--primary-color) 0%, #738aed 100%);
+    border-radius: 8px;
+    margin-right: 10px;
+    box-shadow: 0 4px 12px rgba(67, 97, 238, 0.2);
+  }
+  
+  .logo-icon {
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
   }
   
   .main-nav {
     display: flex;
     align-items: center;
     gap: 20px;
-    
-    a {
-      color: #555;
-      text-decoration: none;
-      font-weight: 500;
-      padding: 5px 0;
-      position: relative;
-      
-      &:hover {
-        color: var(--primary-color);
-      }
-      
-      &.active {
-        color: var(--primary-color);
-        
-        &:after {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          height: 2px;
-          background-color: var(--primary-color);
-        }
-      }
+    flex-grow: 1;
+    justify-content: flex-end;
+  }
+  
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  
+  .main-nav a {
+    color: #555;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 5px 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: var(--transition);
+  }
+  
+  .main-nav a:hover {
+    color: var(--primary-color);
+  }
+  
+  .main-nav a.active {
+    color: var(--primary-color);
+  }
+  
+  .main-nav a.active:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--primary-color);
+    border-radius: 2px;
+  }
+  
+  .nav-icon {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .user-dropdown {
+    position: relative;
+  }
+  
+  .dropdown-toggle {
+    background: none;
+    border: none;
+    color: #555;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  
+  .dropdown-toggle:hover {
+    background-color: #f8f9fa;
+    color: var(--primary-color);
+  }
+  
+  .user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-color) 0%, #738aed 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  
+  .username {
+    max-width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    top: calc(100% + 5px);
+    right: 0;
+    background-color: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    min-width: 180px;
+    padding: 5px 0;
+    display: none;
+    z-index: 10;
+  }
+  
+  .dropdown-menu.show {
+    display: block;
+  }
+  
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    color: #555;
+    transition: var(--transition);
+  }
+  
+  .dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: var(--primary-color);
+  }
+  
+  .dropdown-icon {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .auth-buttons {
+    display: flex;
+    gap: 16px;
+  }
+  
+  .btn {
+    display: inline-block;
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 10px 20px;
+    font-size: 14px;
+    line-height: 1.5;
+    border-radius: 8px;
+    transition: var(--transition);
+    letter-spacing: 0.4px;
+  }
+  
+  .btn-outline {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background-color: transparent;
+  }
+  
+  .btn-outline:hover {
+    background-color: rgba(67, 97, 238, 0.05);
+    text-decoration: none;
+  }
+  
+  .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 4px 12px rgba(67, 97, 238, 0.2);
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--primary-hover);
+    box-shadow: 0 6px 16px rgba(67, 97, 238, 0.3);
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 992px) {
+    .nav-links a span {
+      display: none;
     }
     
-    .user-dropdown {
-      position: relative;
-      
-      .dropdown-toggle {
-        background: none;
-        border: none;
-        color: #555;
-        font-weight: 500;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        cursor: pointer;
-        
-        &:hover {
-          color: var(--primary-color);
-        }
-        
-        i {
-          font-size: 0.8rem;
-        }
-      }
-      
-      .dropdown-menu {
-        position: absolute;
-        top: 100%;
-        right: 0;
-        background-color: white;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        border-radius: 4px;
-        min-width: 150px;
-        display: none;
-        
-        a {
-          display: block;
-          padding: 10px 15px;
-          
-          &:hover {
-            background-color: #f8f9fa;
-          }
-        }
-      }
-      
-      &:hover .dropdown-menu {
-        display: block;
-      }
+    .nav-links {
+      gap: 20px;
+    }
+    
+    .nav-icon {
+      width: 20px;
+      height: 20px;
     }
   }
   
   @media (max-width: 768px) {
-    .main-nav {
+    .container {
+      flex-wrap: wrap;
+      justify-content: space-between;
       gap: 15px;
+    }
+    
+    .logo {
+      flex-grow: 1;
+    }
+    
+    .main-nav {
+      order: 3;
+      width: 100%;
+      justify-content: flex-start;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .nav-links {
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-right: auto;
+    }
+    
+    .nav-links a {
+      padding: 8px 12px;
+      background-color: #f8f9fa;
+      border-radius: 6px;
+    }
+    
+    .nav-links a span {
+      display: inline;
+      font-size: 13px;
+    }
+    
+    .user-dropdown {
+      margin-left: auto;
+    }
+    
+    .auth-buttons {
+      width: 100%;
+      justify-content: center;
+      margin-top: 10px;
+    }
+    
+    .auth-buttons a {
+      flex: 1;
+      text-align: center;
+      padding: 12px 20px;
     }
   }
   
@@ -116,11 +309,34 @@
       padding: 10px 0;
     }
     
-    .logo h1 {
-      font-size: 1.3rem;
+    .nav-links {
+      width: 100%;
+      justify-content: space-between;
+      margin-bottom: 10px;
     }
     
-    .main-nav {
+    .nav-links a {
+      flex: 1;
+      justify-content: center;
+      font-size: 12px;
+    }
+    
+    .user-dropdown {
+      width: 100%;
+    }
+    
+    .dropdown-toggle {
+      width: 100%;
+      justify-content: space-between;
+      padding: 10px;
+    }
+    
+    .auth-buttons {
+      flex-direction: column;
       gap: 10px;
+    }
+    
+    .auth-buttons a {
+      padding: 12px 16px;
     }
   }

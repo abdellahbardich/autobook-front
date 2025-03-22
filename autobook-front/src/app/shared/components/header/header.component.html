@@ -1,30 +1,73 @@
+<!-- HTML -->
 <header class="app-header">
     <div class="container">
       <div class="logo">
         <a routerLink="/">
-          <h1>AutoBook</h1>
+          <div class="logo-container">
+            <span class="logo-icon">A</span>
+          </div>
         </a>
       </div>
+      
       <nav class="main-nav">
         <ng-container *ngIf="authService.currentUserValue">
-          <a routerLink="/conversations" routerLinkActive="active">Conversations</a>
-          <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
-
-          <a routerLink="/collections" routerLinkActive="active">Collections</a>
+          <div class="nav-links">
+            <a routerLink="/dashboard" routerLinkActive="active">
+              <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+              <span>Dashboard</span>
+            </a>
+            <a routerLink="/conversations" routerLinkActive="active">
+              <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+              </svg>
+              <span>Conversations</span>
+            </a>
+            <a routerLink="/collections" routerLinkActive="active">
+              <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+              </svg>
+              <span>Collections</span>
+            </a>
+          </div>
+          
           <div class="user-dropdown">
-            <button class="dropdown-toggle">
-              {{ authService.currentUserValue.username }}
-              <!-- <i class="fa fa-caret-down"></i> -->
+            <button class="dropdown-toggle" (click)="toggleDropdown($event)">
+              <div class="user-avatar">
+                {{ authService.currentUserValue.username.charAt(0).toUpperCase() }}
+              </div>
+              <span class="username">{{ authService.currentUserValue.username }}</span>
             </button>
-            <div class="dropdown-menu">
-              <a routerLink="/profile">Profile</a>
-              <a href="javascript:void(0)" (click)="logout()">Logout</a>
+  
+            <div class="dropdown-menu" [class.show]="isDropdownOpen">
+              <a routerLink="/auth/profile" class="dropdown-item" (click)="closeDropdown()">
+                <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span>Profile</span>
+              </a>
+              <a href="javascript:void(0)" (click)="logout(); closeDropdown()" class="dropdown-item">
+                <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                  <polyline points="16 17 21 12 16 7"></polyline>
+                  <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                <span>Logout</span>
+              </a>
             </div>
           </div>
         </ng-container>
+        
         <ng-container *ngIf="!authService.currentUserValue">
-          <a routerLink="/auth/login">Login</a>
-          <a routerLink="/auth/register">Register</a>
+          <div class="auth-buttons">
+            <a routerLink="/auth/login" class="btn btn-outline">Login</a>
+            <a routerLink="/auth/register" class="btn btn-primary">Register</a>
+          </div>
         </ng-container>
       </nav>
     </div>

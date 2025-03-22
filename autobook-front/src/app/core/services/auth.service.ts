@@ -57,6 +57,25 @@ export class AuthService {
   isAuthenticated(): boolean {
     return !!localStorage.getItem('token');
   }
+  getUserProfile(): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/profile`)
+      .pipe(
+        tap(user => {
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          this.currentUserSubject.next(user);
+        })
+      );
+  }
+
+  updateUserProfile(userData: Partial<User>): Observable<User> {
+    return this.http.put<User>(`${this.apiUrl}/profile`, userData)
+      .pipe(
+        tap(user => {
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          this.currentUserSubject.next(user);
+        })
+      );
+  }
   
   getToken(): string | null {
     return localStorage.getItem('token');

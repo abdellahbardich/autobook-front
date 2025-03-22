@@ -1,0 +1,299 @@
+<!-- HTML -->
+<div class="profile-container">
+    <div class="profile-card">
+      <h1>Your Profile</h1>
+      
+      @if (isLoading) {
+        <div class="loading">
+          <div class="loading-spinner"></div>
+          <p>Loading your profile...</p>
+        </div>
+      } @else if (!user) {
+        <div class="not-found">
+          <svg class="not-found-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <p>Unable to load profile information.</p>
+          <button class="btn-retry" (click)="loadUserProfile()">Try Again</button>
+        </div>
+      } @else {
+        <div class="profile-header">
+          <div class="avatar">
+            static avatar
+          </div>
+          <div class="user-info">
+            <h2>{{ user.username }}</h2>
+            <p>{{ user.email }}</p>
+            <p class="user-since">Member since {{ formattedDate }}</p>
+          </div>
+        </div>
+        
+        <!-- Tabs Navigation -->
+        <div class="profile-tabs">
+          <button class="tab-button" [class.active]="activeTab === 'profile'" (click)="activeTab = 'profile'">
+            <svg class="tab-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            Profile Information
+          </button>
+          <button class="tab-button" [class.active]="activeTab === 'password'" (click)="activeTab = 'password'">
+            <svg class="tab-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            Security
+          </button>
+        </div>
+        
+        <!-- Profile Tab -->
+        <div class="tab-content" [class.active]="activeTab === 'profile'">
+          <div class="profile-form">
+            <form [formGroup]="profileForm" (ngSubmit)="updateProfile()">
+              <div class="form-group">
+                <label for="username">Username</label>
+                <div class="input-with-icon">
+                  <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg>
+                  <input 
+                    type="text" 
+                    id="username" 
+                    formControlName="username"
+                    
+                  >
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="name">Full Name</label>
+                <div class="input-with-icon">
+                  <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg>
+                  <input 
+                    type="text" 
+                    id="name" 
+                    formControlName="name" 
+                    placeholder="Enter your full name"
+                  >
+                </div>
+                @if (name?.invalid && (name?.dirty || name?.touched)) {
+                  <div class="error-message">
+                    @if (name?.errors?.['required']) {
+                      <span>Name is required</span>
+                    }
+                  </div>
+                }
+              </div>
+              
+              <div class="form-group">
+                <label for="email">Email</label>
+                <div class="input-with-icon">
+                  <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                  </svg>
+                  <input 
+                    type="email" 
+                    id="email" 
+                    formControlName="email" 
+                    
+                  >
+                </div>
+              </div>
+              
+              <!-- Bio field -->
+              <div class="form-group">
+                <label for="bio">Bio</label>
+                <textarea 
+                  id="bio" 
+                  formControlName="bio" 
+                  placeholder="Tell us about yourself"
+                  rows="4"
+                ></textarea>
+              </div>
+              
+              <div class="form-actions">
+                <button 
+                  type="button" 
+                  class="btn-cancel" 
+                  [disabled]="!profileForm.dirty"
+                  (click)="resetForm()">
+                  Cancel
+                </button>
+                <button 
+                  type="submit" 
+                  class="btn-update" 
+                  [disabled]="profileForm.invalid || isSubmitting || !profileForm.dirty"
+                >
+                  <span class="btn-text">{{ isSubmitting ? 'Updating...' : 'Update Profile' }}</span>
+                  @if (isSubmitting) {
+                    <div class="btn-spinner"></div>
+                  }
+                </button>
+              </div>
+              
+              @if (updateSuccess) {
+                <div class="success-message">
+                  <svg class="success-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                  <span>Profile updated successfully!</span>
+                </div>
+              }
+            </form>
+          </div>
+        </div>
+        
+        <!-- Password Tab -->
+        <div class="tab-content" [class.active]="activeTab === 'password'">
+          <div class="password-form">
+            <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+              <div class="form-group">
+                <label for="currentPassword">Current Password</label>
+                <div class="input-with-icon password-field">
+                  <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                  <input 
+                    [type]="showCurrentPassword ? 'text' : 'password'" 
+                    id="currentPassword" 
+                    formControlName="currentPassword" 
+                    placeholder="Enter your current password"
+                  >
+                  <button type="button" class="toggle-password" (click)="showCurrentPassword = !showCurrentPassword">
+                    <svg *ngIf="!showCurrentPassword" class="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                    <svg *ngIf="showCurrentPassword" class="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                      <line x1="1" y1="1" x2="23" y2="23"></line>
+                    </svg>
+                  </button>
+                </div>
+                @if (currentPassword?.invalid && (currentPassword?.dirty || currentPassword?.touched)) {
+                  <div class="error-message">
+                    @if (currentPassword?.errors?.['required']) {
+                      <span>Current password is required</span>
+                    }
+                  </div>
+                }
+              </div>
+              
+              <div class="form-group">
+                <label for="newPassword">New Password</label>
+                <div class="input-with-icon password-field">
+                  <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                  <input 
+                    [type]="showNewPassword ? 'text' : 'password'" 
+                    id="newPassword" 
+                    formControlName="newPassword" 
+                    placeholder="Enter your new password"
+                  >
+                  <button type="button" class="toggle-password" (click)="showNewPassword = !showNewPassword">
+                    <svg *ngIf="!showNewPassword" class="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                    <svg *ngIf="showNewPassword" class="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                      <line x1="1" y1="1" x2="23" y2="23"></line>
+                    </svg>
+                  </button>
+                </div>
+                @if (newPassword?.invalid && (newPassword?.dirty || newPassword?.touched)) {
+                  <div class="error-message">
+                    @if (newPassword?.errors?.['required']) {
+                      <span>New password is required</span>
+                    }
+                    @if (newPassword?.errors?.['minlength']) {
+                      <span>Password must be at least 8 characters</span>
+                    }
+                  </div>
+                }
+              </div>
+              
+              <div class="form-group">
+                <label for="confirmPassword">Confirm New Password</label>
+                <div class="input-with-icon password-field">
+                  <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                  <input 
+                    [type]="showConfirmPassword ? 'text' : 'password'" 
+                    id="confirmPassword" 
+                    formControlName="confirmPassword" 
+                    placeholder="Confirm your new password"
+                  >
+                  <button type="button" class="toggle-password" (click)="showConfirmPassword = !showConfirmPassword">
+                    <svg *ngIf="!showConfirmPassword" class="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                    <svg *ngIf="showConfirmPassword" class="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                      <line x1="1" y1="1" x2="23" y2="23"></line>
+                    </svg>
+                  </button>
+                </div>
+                @if (confirmPassword?.invalid && (confirmPassword?.dirty || confirmPassword?.touched)) {
+                  <div class="error-message">
+                    @if (confirmPassword?.errors?.['required']) {
+                      <span>Please confirm your password</span>
+                    }
+                  </div>
+                }
+                @if (passwordForm.errors?.['passwordMismatch'] && confirmPassword?.dirty) {
+                  <div class="error-message">
+                    <span>Passwords do not match</span>
+                  </div>
+                }
+              </div>
+              
+              <div class="form-actions">
+                <button 
+                  type="button" 
+                  class="btn-cancel" 
+                  (click)="resetPasswordForm()"
+                  [disabled]="isChangingPassword">
+                  Cancel
+                </button>
+                <button 
+                  type="submit" 
+                  class="btn-update" 
+                  [disabled]="passwordForm.invalid || isChangingPassword"
+                >
+                  <span class="btn-text">{{ isChangingPassword ? 'Changing Password...' : 'Change Password' }}</span>
+                  @if (isChangingPassword) {
+                    <div class="btn-spinner"></div>
+                  }
+                </button>
+              </div>
+              
+              @if (passwordSuccess) {
+                <div class="success-message">
+                  <svg class="success-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                  <span>Password changed successfully!</span>
+                </div>
+              }
+            </form>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
