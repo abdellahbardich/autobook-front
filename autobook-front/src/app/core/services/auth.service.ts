@@ -10,6 +10,8 @@ import { environment } from '../../../environments/environment';
 })
 export class AuthService {
   private apiUrl = `${environment.apiUrl}/api/auth`;
+  // apiurl both for profile 
+  private apiProfileUrl = `${environment.apiUrl}/api/user`;
   private currentUserSubject: BehaviorSubject<User | null>;
   public currentUser$: Observable<User | null>;
   
@@ -59,7 +61,7 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
   getUserProfile(): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/profile`)
+    return this.http.get<User>(`${this.apiProfileUrl}/profile`)
       .pipe(
         tap(user => {
           localStorage.setItem('currentUser', JSON.stringify(user));
