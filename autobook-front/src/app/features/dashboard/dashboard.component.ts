@@ -4,7 +4,6 @@ import { RouterLink } from '@angular/router';
 import { StatisticsService } from '../../core/services/statistics.service';
 import { Chart, registerables } from 'chart.js';
 
-// Register all Chart.js components
 Chart.register(...registerables);
 
 @Component({
@@ -26,14 +25,12 @@ export class DashboardComponent implements OnInit {
   
   loadStatistics(): void {
     this.loading = true;
-    // Use basic stats since detailed stats require extra API calls
     this.statisticsService.getStatistics().subscribe({
       next: (data) => {
         console.log('Statistics loaded:', data);
         this.stats = data;
         this.loading = false;
         
-        // Allow DOM to update before rendering charts
         setTimeout(() => {
           this.renderCharts();
         }, 0);
@@ -101,10 +98,10 @@ export class DashboardComponent implements OnInit {
         datasets: [{
           data,
           backgroundColor: [
-            'rgba(255, 206, 86, 0.8)',   // PENDING
-            'rgba(54, 162, 235, 0.8)',   // GENERATING
-            'rgba(75, 192, 192, 0.8)',   // COMPLETED
-            'rgba(255, 99, 132, 0.8)'    // FAILED
+            'rgba(255, 206, 86, 0.8)',   
+            'rgba(54, 162, 235, 0.8)',  
+            'rgba(75, 192, 192, 0.8)',   
+            'rgba(255, 99, 132, 0.8)'    
           ]
         }]
       },

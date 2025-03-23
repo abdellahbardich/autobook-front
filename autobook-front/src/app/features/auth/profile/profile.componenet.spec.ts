@@ -47,13 +47,11 @@ describe('ProfileComponent', () => {
     expect(component.profileForm).toBeDefined();
     expect(component.passwordForm).toBeDefined();
     
-    // Profile form
     expect(component.profileForm.get('username')).toBeDefined();
     expect(component.profileForm.get('name')).toBeDefined();
     expect(component.profileForm.get('email')).toBeDefined();
     expect(component.profileForm.get('bio')).toBeDefined();
     
-    // Password form
     expect(component.passwordForm.get('currentPassword')).toBeDefined();
     expect(component.passwordForm.get('newPassword')).toBeDefined();
     expect(component.passwordForm.get('confirmPassword')).toBeDefined();
@@ -87,7 +85,6 @@ describe('ProfileComponent', () => {
     const newPasswordControl = component.passwordForm.get('newPassword');
     const confirmPasswordControl = component.passwordForm.get('confirmPassword');
     
-    // Current password validation
     currentPasswordControl?.setValue('');
     expect(currentPasswordControl?.valid).toBeFalsy();
     expect(currentPasswordControl?.hasError('required')).toBeTruthy();
@@ -95,7 +92,6 @@ describe('ProfileComponent', () => {
     currentPasswordControl?.setValue('current123');
     expect(currentPasswordControl?.valid).toBeTruthy();
     
-    // New password validation
     newPasswordControl?.setValue('');
     expect(newPasswordControl?.valid).toBeFalsy();
     expect(newPasswordControl?.hasError('required')).toBeTruthy();
@@ -107,7 +103,6 @@ describe('ProfileComponent', () => {
     newPasswordControl?.setValue('12345678');
     expect(newPasswordControl?.valid).toBeTruthy();
     
-    // Confirm password validation
     confirmPasswordControl?.setValue('');
     expect(confirmPasswordControl?.valid).toBeFalsy();
     expect(confirmPasswordControl?.hasError('required')).toBeTruthy();
@@ -139,12 +134,11 @@ describe('ProfileComponent', () => {
     component.profileForm.markAsDirty();
     
     component.updateProfile();
-    tick(1000); // Wait for the setTimeout
+    tick(1000); 
     
     expect(component.isSubmitting).toBeFalse();
     expect(component.updateSuccess).toBeTrue();
     
-    // Reset success message after 3 seconds
     tick(3000);
     expect(component.updateSuccess).toBeFalse();
   }));
@@ -179,17 +173,15 @@ describe('ProfileComponent', () => {
     });
     
     component.changePassword();
-    tick(1000); // Wait for the setTimeout
+    tick(1000); 
     
     expect(component.isChangingPassword).toBeFalse();
     expect(component.passwordSuccess).toBeTrue();
     
-    // Form should be reset
     expect(component.passwordForm.get('currentPassword')?.value).toBeFalsy();
     expect(component.passwordForm.get('newPassword')?.value).toBeFalsy();
     expect(component.passwordForm.get('confirmPassword')?.value).toBeFalsy();
     
-    // Reset success message after 3 seconds
     tick(3000);
     expect(component.passwordSuccess).toBeFalse();
   }));

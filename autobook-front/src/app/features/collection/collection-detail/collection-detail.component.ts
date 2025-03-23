@@ -4,7 +4,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CollectionService } from '../../../core/services/collection.service';
 import { BookService } from '../../../core/services/book.service';
 import { CollectionDetail } from '../../../core/models/collection.model';
-import { Book, BookStatus } from '../../../core/models/book.model';
+import { Book, BookDetail, BookStatus } from '../../../core/models/book.model';
 import { CommonModule } from '@angular/common';
 import { SecureImageComponent } from '../../conversation/secure-image.component';
 
@@ -43,9 +43,11 @@ export class CollectionDetailComponent implements OnInit {
   
   ngOnInit(): void {
     this.collectionId = +this.route.snapshot.paramMap.get('id')!;
+    
     this.loadCollection();
   }
   getCompletedCount(): number {
+    console.log(this.books);
     return this.books.filter(book => book.status === BookStatus.COMPLETE).length;
   }
   

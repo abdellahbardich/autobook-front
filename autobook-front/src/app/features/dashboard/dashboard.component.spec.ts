@@ -11,7 +11,6 @@ describe('DashboardComponent', () => {
   let fixture: ComponentFixture<DashboardComponent>;
   let statisticsServiceSpy: jasmine.SpyObj<StatisticsService>;
 
-  // Mock statistics data
   const mockStats = {
     totalBooks: 25,
     totalConversations: 12,
@@ -35,10 +34,8 @@ describe('DashboardComponent', () => {
   };
 
   beforeEach(async () => {
-    // Mock for Chart.js
     jasmine.createSpy('Chart');
     
-    // Create spy for StatisticsService
     statisticsServiceSpy = jasmine.createSpyObj('StatisticsService', ['getStatistics']);
     
     await TestBed.configureTestingModule({
@@ -46,13 +43,12 @@ describe('DashboardComponent', () => {
       providers: [
         { provide: StatisticsService, useValue: statisticsServiceSpy }
       ],
-      schemas: [NO_ERRORS_SCHEMA] // Ignore unknown elements and attributes
+      schemas: [NO_ERRORS_SCHEMA] 
     }).compileComponents();
 
     fixture = TestBed.createComponent(DashboardComponent);
     component = fixture.componentInstance;
     
-    // Mock document.getElementById
     spyOn(document, 'getElementById').and.returnValue(document.createElement('canvas'));
   });
 
@@ -86,7 +82,7 @@ describe('DashboardComponent', () => {
     spyOn(component, 'renderCharts');
     
     fixture.detectChanges();
-    tick(); // Wait for setTimeout
+    tick();
     
     expect(component.renderCharts).toHaveBeenCalled();
   }));

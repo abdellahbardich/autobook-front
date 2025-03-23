@@ -41,7 +41,6 @@ export class BookDetailComponent implements OnInit, OnDestroy {
     this.loadBook();
     this.loadCollections();
     
-    // If book is still generating, check status periodically
     this.statusCheckSubscription = interval(5000)
       .pipe(
         startWith(0),
@@ -51,7 +50,7 @@ export class BookDetailComponent implements OnInit, OnDestroy {
         next: response => {
           if (this.book && this.book.status !== response.status) {
             if (response.status === BookStatus.COMPLETE) {
-              this.loadBook(); // Reload book when complete
+              this.loadBook(); 
             } else {
               this.book.status = response.status;
             }
@@ -76,7 +75,6 @@ export class BookDetailComponent implements OnInit, OnDestroy {
           this.book = book;
           this.loading = false;
           
-          // If book is complete, stop checking status
           if (book.status === BookStatus.COMPLETE || book.status === BookStatus.FAILED) {
             this.statusCheckSubscription?.unsubscribe();
           }
@@ -119,7 +117,9 @@ export class BookDetailComponent implements OnInit, OnDestroy {
         }
       });
   }
-  
+  getchapterCount(): number {
+    return Object.keys(this.book?.chapters as any).length;
+  }
   addToCollection(): void {
     if (!this.selectedCollectionId) return;
     

@@ -8,7 +8,7 @@
         <span>Back to Conversations</span>
       </button>
       <div class="title-section">
-        <h1>{{ book.title }}</h1>
+        <h3>{{ book.title }}</h3>
         <span class="status-badge" [ngClass]="getStatusBadgeClass()">
           <span class="status-dot"></span>
           {{ book.status }}
@@ -59,16 +59,17 @@
           </div>
           <div class="detail-item">
             <span class="label">Chapters</span>
-            <span class="value">{{ book.numChapters }}</span>
-          </div>
-          <div class="detail-item">
+            <!-- counting chapters  -->
+            <span class="value">{{getchapterCount()}}</span>
+        </div>
+          <!-- <div class="detail-item">
             <span class="label">Illustrations</span>
             <span class="value">{{ book.includeIllustrations ? 'Yes' : 'No' }}</span>
-          </div>
-          <div class="detail-item">
+          </div> -->
+          <!-- <div class="detail-item">
             <span class="label">Style Prompt</span>
             <span class="value prompt">{{ book.stylePrompt || 'None' }}</span>
-          </div>
+          </div> -->
           <div class="detail-item">
             <span class="label">Created On</span>
             <span class="value">{{ book.createdAt | date:'medium' }}</span>

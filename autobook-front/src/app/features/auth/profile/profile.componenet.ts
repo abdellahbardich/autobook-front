@@ -29,7 +29,6 @@ export class ProfileComponent implements OnInit {
   activeTab = 'profile';
   formattedDate = '';
 
-  // Password visibility toggles
   showCurrentPassword = false;
   showNewPassword = false;
   showConfirmPassword = false;
@@ -77,10 +76,8 @@ export class ProfileComponent implements OnInit {
       next: (profile) => {
         this.user = profile;
         
-        // Format creation date
         
 
-        // Populate form
         this.profileForm.patchValue({
           username: profile.username,
           name: profile.username || profile.username,
@@ -104,7 +101,6 @@ export class ProfileComponent implements OnInit {
     this.isSubmitting = true;
     this.updateSuccess = false;
 
-    // Only include changed fields
     const updatedData: Partial<User> = {};
     const formValue = this.profileForm.getRawValue();
 
@@ -114,20 +110,15 @@ export class ProfileComponent implements OnInit {
 
     
 
-    // In a real app, this would call the API service
-    // This is a mock implementation for demonstration purposes
     setTimeout(() => {
-      // Update local user data
       if (this.user) {
         this.user = { ...this.user, ...updatedData };
       }
       
-    //   this.toastService.show('Profile updated successfully', 'success');
       this.updateSuccess = true;
       this.isSubmitting = false;
       this.profileForm.markAsPristine();
       
-      // Hide success message after 3 seconds
       setTimeout(() => {
         this.updateSuccess = false;
       }, 3000);
@@ -145,15 +136,12 @@ export class ProfileComponent implements OnInit {
       newPassword: this.passwordForm.get('newPassword')?.value
     };
 
-    // In a real app, this would call the API service
-    // This is a mock implementation for demonstration purposes
     setTimeout(() => {
     //   this.toastService.show('Password changed successfully', 'success');
       this.passwordSuccess = true;
       this.isChangingPassword = false;
       this.resetPasswordForm();
       
-      // Hide success message after 3 seconds
       setTimeout(() => {
         this.passwordSuccess = false;
       }, 3000);

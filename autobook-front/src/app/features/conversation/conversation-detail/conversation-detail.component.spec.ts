@@ -10,7 +10,6 @@ import { CommonModule } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, Input } from '@angular/core';
 
-// Mock SecureImageComponent to avoid HttpClient dependency
 @Component({
   selector: 'app-secure-image',
   template: '<img [src]="url" [alt]="alt" />'
@@ -28,7 +27,6 @@ describe('ConversationDetailComponent', () => {
   let bookServiceSpy: jasmine.SpyObj<BookService>;
   let routerSpy: jasmine.SpyObj<Router>;
 
-  // Mock book parameters
   const mockBookParameters = {
     bookType: BookType.TEXT_IMAGE,
     stylePrompt: 'Fantasy, magical, colorful',
@@ -70,7 +68,6 @@ describe('ConversationDetailComponent', () => {
   ];
 
   beforeEach(async () => {
-    // Create mock for localStorage
     let store: { [key: string]: string } = {};
     spyOn(localStorage, 'getItem').and.callFake((key) => {
       return store[key] || null;
@@ -79,10 +76,8 @@ describe('ConversationDetailComponent', () => {
       store[key] = value.toString();
     });
 
-    // Set up mock book parameters in localStorage
     store[`conversation-1-bookParameters`] = JSON.stringify(mockBookParameters);
 
-    // Mock history state
     Object.defineProperty(window.history, 'state', {
       value: { bookParameters: null },
       writable: true
@@ -123,7 +118,7 @@ describe('ConversationDetailComponent', () => {
         { provide: Router, useValue: routerSpy },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
       ],
-      schemas: [] // Remove NO_ERRORS_SCHEMA to identify component issues
+      schemas: [] 
     }).overrideComponent(ConversationDetailComponent, {
       remove: { imports: [ReactiveFormsModule, CommonModule] },
       add: { imports: [ReactiveFormsModule, CommonModule] }
@@ -132,7 +127,6 @@ describe('ConversationDetailComponent', () => {
     fixture = TestBed.createComponent(ConversationDetailComponent);
     component = fixture.componentInstance;
     
-    // Force set the conversation ID
     component.conversationId = 1;
   });
 
@@ -214,7 +208,6 @@ describe('ConversationDetailComponent', () => {
     expect(component.getProgressPercentage(2)).toBe(0);
     expect(component.getProgressStep(2)).toBe(1);
     
-    // Clean up the interval
     component.clearProgressInterval(2);
   });
 
@@ -225,11 +218,9 @@ describe('ConversationDetailComponent', () => {
   });
 
   it('should download book', () => {
-    // Use a more simplified test approach that doesn't rely on DOM manipulation
     const mockBlob = new Blob(['test'], { type: 'application/pdf' });
     bookServiceSpy.downloadBook.and.returnValue(of(mockBlob));
     
-    // Skip DOM manipulation tests which are causing issues
     spyOn(component, 'scrollToBottom');
     
     component.downloadBook(1);

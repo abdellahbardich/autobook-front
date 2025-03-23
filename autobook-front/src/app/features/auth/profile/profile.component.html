@@ -31,7 +31,7 @@
         </div>
         
         <!-- Tabs Navigation -->
-        <div class="profile-tabs">
+        <!-- <div class="profile-tabs">
           <button class="tab-button" [class.active]="activeTab === 'profile'" (click)="activeTab = 'profile'">
             <svg class="tab-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -47,7 +47,7 @@
             Security
           </button>
         </div>
-        
+         -->
         <!-- Profile Tab -->
         <div class="tab-content" [class.active]="activeTab === 'profile'">
           <div class="profile-form">
@@ -108,7 +108,7 @@
               </div>
               
               <!-- Bio field -->
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <label for="bio">Bio</label>
                 <textarea 
                   id="bio" 
@@ -117,16 +117,16 @@
                   rows="4"
                 ></textarea>
               </div>
-              
+               -->
               <div class="form-actions">
-                <button 
+                <!-- <button 
                   type="button" 
                   class="btn-cancel" 
                   [disabled]="!profileForm.dirty"
                   (click)="resetForm()">
                   Cancel
-                </button>
-                <button 
+                </button> -->
+                <!-- <button 
                   type="submit" 
                   class="btn-update" 
                   [disabled]="profileForm.invalid || isSubmitting || !profileForm.dirty"
@@ -135,7 +135,7 @@
                   @if (isSubmitting) {
                     <div class="btn-spinner"></div>
                   }
-                </button>
+                </button> -->
               </div>
               
               @if (updateSuccess) {

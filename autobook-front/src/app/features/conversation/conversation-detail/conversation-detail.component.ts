@@ -37,7 +37,7 @@ activeTab: 'books' | 'settings' = 'books';
     progressPercent: number;
     estimatedTimeLeft: string;
   }> = new Map();
-  readonly TOTAL_GENERATION_TIME = 90000; 
+  readonly TOTAL_GENERATION_TIME = 105000; 
   readonly GENERATION_STEPS = 4;
   
   private progressInterval: Map<number, any> = new Map();
@@ -73,13 +73,10 @@ activeTab: 'books' | 'settings' = 'books';
   ngOnInit(): void {
     this.conversationId = +this.route.snapshot.paramMap.get('id')!;
   
-    // First try to get the parameters from router state...
     if (history.state.bookParameters) {
       this.bookParameters = history.state.bookParameters;
-      // Store in localStorage for persistence
       localStorage.setItem(`conversation-${this.conversationId}-bookParameters`, JSON.stringify(this.bookParameters));
     } else {
-      // ...otherwise try retrieving them from localStorage.
       const storedParams = localStorage.getItem(`conversation-${this.conversationId}-bookParameters`);
       if (storedParams) {
         this.bookParameters = JSON.parse(storedParams);
@@ -89,9 +86,9 @@ activeTab: 'books' | 'settings' = 'books';
     this.loadConversation();
     this.loadBooks();
   
-    this.statusCheckSubscription = interval(5000).subscribe(() => {
-      this.checkBookStatuses();
-    });
+    // this.statusCheckSubscription = interval(5000).subscribe(() => {
+    //   this.checkBookStatuses();
+    // });
   }
   
   ngOnDestroy(): void {
@@ -105,7 +102,6 @@ activeTab: 'books' | 'settings' = 'books';
     this.progressInterval.clear();
   }
 
-  // New helper method to determine if progress should be shown for a book
   shouldShowProgress(bookId?: number): boolean {
     if (!bookId) return false;
     return this.bookProgress.has(bookId);
@@ -114,23 +110,20 @@ activeTab: 'books' | 'settings' = 'books';
   startTrackingProgress(book: Book): void {
     if (!book.bookId) return;
     
-    // If we're already tracking this book, don't start again
     if (this.bookProgress.has(book.bookId)) return;
     
     console.log(`Starting progress tracking for book ${book.bookId} with status ${book.status}`);
     
-    // Initialize progress tracking for this book
     this.bookProgress.set(book.bookId, {
       startTime: Date.now(),
       currentStep: 1,
       progressPercent: 0,
-      estimatedTimeLeft: '1:30'
+      estimatedTimeLeft: '1:45'
     });
     
-    // Create an interval to update progress
     const intervalId = setInterval(() => {
       this.updateBookProgress(book.bookId!);
-    }, 100); // Update every 100ms for smooth animation
+    }, 100); 
     
     this.progressInterval.set(book.bookId, intervalId);
   }
@@ -142,23 +135,19 @@ activeTab: 'books' | 'settings' = 'books';
     const now = Date.now();
     const elapsed = now - progress.startTime;
     
-    // Calculate progress percentage
     const progressPercent = Math.min(100, (elapsed / this.TOTAL_GENERATION_TIME) * 100);
     
-    // Calculate current step based on progress percentage
     let currentStep = 1;
     if (progressPercent >= 25) currentStep = 2;
     if (progressPercent >= 50) currentStep = 3;
     if (progressPercent >= 75) currentStep = 4;
     
-    // Calculate time left in seconds
     const timeLeftMs = Math.max(0, this.TOTAL_GENERATION_TIME - elapsed);
     const timeLeftSec = Math.ceil(timeLeftMs / 1000);
     const minutes = Math.floor(timeLeftSec / 60);
     const seconds = timeLeftSec % 60;
     const estimatedTimeLeft = `${minutes}:${seconds.toString().padStart(2, '0')}`;
     
-    // Update progress
     this.bookProgress.set(bookId, {
       ...progress,
       progressPercent,
@@ -166,7 +155,6 @@ activeTab: 'books' | 'settings' = 'books';
       estimatedTimeLeft
     });
     
-    // If we've reached the end, clear the interval and trigger completion
     if (progressPercent >= 100) {
       this.clearProgressInterval(bookId);
       this.completeBookGeneration(bookId);
@@ -185,10 +173,10 @@ activeTab: 'books' | 'settings' = 'books';
   }
   
   completeBookGeneration(bookId: number): void {
-    // Find the book and update its status
+    this.loadConversation();
+
     const book = this.books.find(b => b.bookId === bookId);
     if (book) {
-      // Update the status to COMPLETE
       this.bookService.getBookStatus(bookId).subscribe({
         next: response => {
           book.status = response.status;
@@ -229,7 +217,6 @@ activeTab: 'books' | 'settings' = 'books';
       .subscribe({
         next: conversation => {
           this.conversation = conversation;
-          // Scroll to bottom of messages
           setTimeout(() => this.scrollToBottom(), 100);
         }
       });
@@ -245,9 +232,7 @@ activeTab: 'books' | 'settings' = 'books';
       )
       .subscribe({
         next: books => {
-          // Preserve progress tracking when refreshing books
           const newBooks = books.map(book => {
-            // Start tracking for any PROCESSING books if not already tracking
             if (book.bookId && book.status === BookStatus.PROCESSING) {
               this.startTrackingProgress(book);
             }
@@ -265,7 +250,6 @@ activeTab: 'books' | 'settings' = 'books';
   
     pendingBooks.forEach(book => {
       if (book.bookId) {
-        // Start tracking progress for PROCESSING books
         if (book.status === BookStatus.PROCESSING) {
           this.startTrackingProgress(book);
         }
@@ -277,11 +261,9 @@ activeTab: 'books' | 'settings' = 'books';
             if (response.status !== book.status) {
               book.status = response.status;
               
-              // Only clear progress when book is COMPLETE and we've already shown a full progress
               const progress = this.bookProgress.get(book.bookId!);
               if (response.status === BookStatus.COMPLETE && progress && progress.progressPercent >= 95) {
                 this.clearProgressInterval(book.bookId);
-                // this.loadBooks();
               }
             }
           },
@@ -338,7 +320,6 @@ activeTab: 'books' | 'settings' = 'books';
   toggleBookForm(): void {
     this.showBookForm = !this.showBookForm;
     if (this.showBookForm) {
-      // Pre-populate prompt from last message if available
       if (this.conversation?.messages.length) {
         const lastMessage = this.conversation.messages[this.conversation.messages.length - 1];
         if (lastMessage.sender === 'USER') {
@@ -351,7 +332,6 @@ activeTab: 'books' | 'settings' = 'books';
   createBook(): void {
     if (this.bookForm.invalid) return;
     
-    // Find the latest user message ID to associate with the book
     let messageId: number | undefined;
     if (this.conversation?.messages) {
       const userMessages = this.conversation.messages.filter(m => m.sender === 'USER');

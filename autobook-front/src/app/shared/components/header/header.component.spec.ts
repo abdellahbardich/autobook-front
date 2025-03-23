@@ -5,7 +5,6 @@ import { AuthService } from '../../../core/services/auth.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Router } from '@angular/router';
 
-// ✅ Create a mock AuthService
 class MockAuthService {
   logout = jasmine.createSpy('logout');
 }

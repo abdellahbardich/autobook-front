@@ -19,7 +19,6 @@ describe('ConversationListComponent', () => {
   let routerSpy: jasmine.SpyObj<Router>;
   let formBuilder: FormBuilder;
 
-  // Mock conversations data
   const mockConversations: Conversation[] = [
     {
       conversationId: 1,
@@ -36,7 +35,6 @@ describe('ConversationListComponent', () => {
   ];
 
   beforeEach(async () => {
-    // Create spies for services
     conversationServiceSpy = jasmine.createSpyObj('ConversationService', 
       ['getConversations', 'createConversation', 'deleteConversation']);
     bookServiceSpy = jasmine.createSpyObj('BookService', ['createBook']);
@@ -54,7 +52,7 @@ describe('ConversationListComponent', () => {
         { provide: BookService, useValue: bookServiceSpy },
         { provide: Router, useValue: routerSpy }
       ],
-      schemas: [NO_ERRORS_SCHEMA] // Ignore unknown elements and attributes
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ConversationListComponent);
@@ -127,11 +125,9 @@ describe('ConversationListComponent', () => {
     
     spyOn(component.newConversationForm, 'reset');
     
-    // Open form
     component.toggleNewConversationForm();
     expect(component.showNewConversationForm).toBeTrue();
     
-    // Close form
     component.toggleNewConversationForm();
     expect(component.showNewConversationForm).toBeFalse();
     expect(component.newConversationForm.reset).toHaveBeenCalled();
@@ -214,7 +210,6 @@ describe('ConversationListComponent', () => {
     conversationServiceSpy.getConversations.and.returnValue(of(mockConversations));
     fixture.detectChanges();
     
-    // Make form invalid
     component.newConversationForm.get('title')?.setValue('');
     component.newConversationForm.get('initialMessage')?.setValue('');
     
@@ -227,7 +222,6 @@ describe('ConversationListComponent', () => {
     conversationServiceSpy.getConversations.and.returnValue(of(mockConversations));
     fixture.detectChanges();
     
-    // Set valid form values
     component.newConversationForm.setValue({
       title: 'New Conversation',
       initialMessage: 'Hello, this is a test',
@@ -237,7 +231,6 @@ describe('ConversationListComponent', () => {
       includeIllustrations: true
     });
     
-    // Mock conversation creation error
     conversationServiceSpy.createConversation.and.returnValue(
       throwError(() => new Error('Failed to create conversation'))
     );
@@ -259,7 +252,6 @@ describe('ConversationListComponent', () => {
     const conversationCards = fixture.debugElement.queryAll(By.css('.conversation-card'));
     expect(conversationCards.length).toBe(2);
     
-    // Check first conversation
     const firstCard = conversationCards[0];
     const titleElement = firstCard.query(By.css('.conversation-title'));
     expect(titleElement.nativeElement.textContent).toContain('Test Conversation 1');

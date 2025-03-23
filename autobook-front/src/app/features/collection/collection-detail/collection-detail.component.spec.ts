@@ -10,7 +10,6 @@ import { CommonModule } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, Input } from '@angular/core';
 
-// Mock SecureImageComponent
 @Component({
   selector: 'app-secure-image',
   template: '<img [src]="url" [alt]="alt" />'
@@ -89,7 +88,6 @@ describe('CollectionDetailComponent', () => {
     fixture = TestBed.createComponent(CollectionDetailComponent);
     component = fixture.componentInstance;
     
-    // Explicitly set the collection ID
     component.collectionId = mockCollectionId;
   });
 

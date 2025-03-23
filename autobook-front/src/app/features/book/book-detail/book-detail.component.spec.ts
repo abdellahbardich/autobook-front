@@ -10,7 +10,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-// Mock SecureImageComponent
 @Component({
   selector: 'app-secure-image',
   template: '<img [src]="url" [alt]="alt" />'
@@ -103,10 +102,8 @@ describe('BookDetailComponent', () => {
     fixture = TestBed.createComponent(BookDetailComponent);
     component = fixture.componentInstance;
     
-    // Explicitly set the book ID
     component.bookId = mockBookId;
     
-    // Mock window.alert to avoid test interruption
     spyOn(window, 'alert').and.stub();
   });
 
@@ -221,7 +218,6 @@ describe('BookDetailComponent', () => {
     const mockBlob = new Blob(['test'], { type: 'application/pdf' });
     bookServiceSpy.downloadBook.and.returnValue(of(mockBlob));
     
-    // Mock required objects/methods for browser download
     spyOn(window.URL, 'createObjectURL').and.returnValue('blob:url');
     spyOn(window.URL, 'revokeObjectURL');
     const mockAnchor = jasmine.createSpyObj('HTMLAnchorElement', ['click']);

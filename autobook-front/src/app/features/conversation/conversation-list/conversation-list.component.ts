@@ -136,7 +136,6 @@ createConversation(): void {
           includeIllustrations: formValue.includeIllustrations
         };
   
-        // Persist book parameters for later retrieval
         localStorage.setItem(
           `conversation-${conversation.conversationId}-bookParameters`,
           JSON.stringify({
@@ -153,7 +152,6 @@ createConversation(): void {
       })
     ).subscribe({
       next: (conversation) => {
-        // Pass state if available, but the info is now also stored in localStorage
         this.router.navigate(['/conversations', conversation.conversationId]);
         this.loading = false;
         this.toggleNewConversationForm();

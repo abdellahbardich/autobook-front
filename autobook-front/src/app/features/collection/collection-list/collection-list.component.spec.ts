@@ -54,7 +54,7 @@ describe('CollectionListComponent', () => {
         { provide: CollectionService, useValue: collectionServiceSpy },
         { provide: Router, useValue: routerSpy }
       ],
-      schemas: [NO_ERRORS_SCHEMA] // Ignore unknown elements
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(CollectionListComponent);
@@ -115,7 +115,6 @@ describe('CollectionListComponent', () => {
     
     spyOn(component, 'loadCollections');
     
-    // Set form values
     component.collectionForm.setValue({
       name: 'New Collection',
       description: 'New Description'

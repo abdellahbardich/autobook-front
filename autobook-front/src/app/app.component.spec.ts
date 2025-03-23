@@ -5,7 +5,6 @@ import { AppComponent } from './app.component';
 import { By } from '@angular/platform-browser';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-// Mock components
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -28,7 +27,7 @@ describe('AppComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        HttpClientTestingModule,  // ✅ Fix the error here
+        HttpClientTestingModule, 
         AppComponent,
         MockHeaderComponent,
         MockFooterComponent
