@@ -239,7 +239,7 @@
         </div>
         
         <div class="card-actions">
-          <button class="action-btn btn-edit">
+          <!-- <button class="action-btn btn-edit">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
               <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
@@ -255,7 +255,7 @@
               <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
             </svg>
             <span class="tooltip">Share</span>
-          </button>
+          </button> -->
           <button
             class="action-btn btn-delete"
             (click)="deleteConversation($event, conversation.conversationId)"
@@ -289,14 +289,14 @@
         </div>
         <h3>No conversations yet</h3>
         <p>Start your first conversation to begin creating amazing books!</p>
-        <button class="btn btn-primary" (click)="toggleNewConversationForm()">
+        <!-- <button class="btn btn-primary" (click)="toggleNewConversationForm()">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="12" y1="5" x2="12" y2="19"></line>
             <line x1="5" y1="12" x2="19" y2="12"></line>
           </svg>
           <span>Start a Conversation</span>
         </button>
-      </div>
+      </div> -->
     </div>
   
     <div class="alert alert-danger" *ngIf="error">
